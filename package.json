@@ -1,0 +1,76 @@
+{
+  "name": "task-manager-garrysh",
+  "version": "0.0.1",
+  "description": "Project task manager",
+  "main": "dist/index.js",
+  "bin": {
+    "task-manager-garrysh": "dist/app/server.js"
+  },
+  "engines": {
+    "node": "8",
+    "yarn": "*"
+  },
+  "scripts": {
+    "test": "jest",
+    "eslint": "eslint",
+    "babel-node": "babel-node",
+    "prepublishOnly": "npm run build",
+    "watch": "nodemon",
+    "build": "NODE_ENV=production babel app --out-dir dist --source-maps inline",
+    "dev": "webpack --mode development",
+    "start": "node dist/server.js"
+  },
+  "devDependencies": {
+    "eslint": "*",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-jest": "*",
+    "istanbul": "*",
+    "jest": "*",
+    "jest-cli": "*",
+    "nodemon": "*",
+    "supertest": "*"
+  },
+  "dependencies": {
+    "autoprefixer": "^8.3.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
+    "babel-jest": "^22.4.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "bootstrap": "^4.1.0",
+    "css-loader": "^0.28.11",
+    "dotenv": "^5.0.1",
+    "jquery": "^3.3.1",
+    "koa": "^2.5.0",
+    "koa-logger": "^3.2.0",
+    "koa-pug": "^3.0.0-2",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2",
+    "popper.js": "^1.14.3",
+    "postcss-loader": "^2.1.4",
+    "precss": "^3.1.2",
+    "rollbar": "^2.3.9",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.0.14"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GarrySh/project-lvl4-s187.git"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "author": "Garry Sh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GarrySh/project-lvl4-s187/issues"
+  },
+  "homepage": "https://github.com/GarrySh/project-lvl4-s187#readme"
+}
