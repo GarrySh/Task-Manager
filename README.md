@@ -11,7 +11,7 @@ Demo version: https://task-manager-garrysh.herokuapp.com/
 
 ## Setup
 ```
-git clone https://github.com/GarrySh/project-lvl4-s195.git
+git clone git@github.com:GarrySh/project-lvl4-s195.git
 cd project-lvl4-s195
 make install
 ```
