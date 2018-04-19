@@ -7,8 +7,8 @@
     "task-manager-garrysh": "dist/app/server.js"
   },
   "engines": {
-    "node": "8",
-    "yarn": "*"
+    "node": "~8",
+    "yarn": "~1"
   },
   "scripts": {
     "test": "jest",
