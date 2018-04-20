@@ -4,7 +4,8 @@ install:
 test:
 	yarn run test
 
-start: build dev
+start: build
+	yarn run prod
 	yarn run start
 
 publish:

@@ -18,6 +18,7 @@
     "watch": "nodemon",
     "build": "NODE_ENV=production babel app --out-dir dist --source-maps inline",
     "dev": "webpack --mode development",
+    "prod": " webpack --mode production",
     "start": "node dist/server.js"
   },
   "devDependencies": {
@@ -52,6 +53,7 @@
     "koa-pug": "^3.0.0-2",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
+    "koa-webpack": "^3.0.2",
     "node-sass": "^4.8.3",
     "popper.js": "^1.14.3",
     "postcss-loader": "^2.1.4",

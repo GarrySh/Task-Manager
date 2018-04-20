@@ -6,11 +6,12 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default (env, argv) => ({
   entry: {
-    app: './client/index.js',
+    app: ['./client/index.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'public/assets'),
+    path: path.resolve(__dirname, 'public', 'assets'),
     filename: '[name].bundle.js',
+    publicPath: '/assets/',
   },
   module: {
     rules: [{
@@ -33,7 +34,10 @@ export default (env, argv) => ({
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: [
-          { loader: 'css-loader' },
+          {
+            loader: 'css-loader',
+            options: { minimize: argv.mode === 'production' },
+          },
           {
             loader: 'postcss-loader',
             options: { plugins: () => [precss, autoprefixer] },
@@ -46,6 +50,6 @@ export default (env, argv) => ({
   watch: argv.mode === 'development',
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin('[name].css'),
+    new ExtractTextPlugin('style.css'),
   ],
 });
