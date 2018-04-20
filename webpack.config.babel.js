@@ -1,10 +1,10 @@
+import autoprefixer from 'autoprefixer';
 import path from 'path';
 import precss from 'precss';
-import autoprefixer from 'autoprefixer';
+import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-// import webpack from 'webpack';
-
-export default () => ({
+export default (env, argv) => ({
   entry: {
     app: './client/index.js',
   },
@@ -29,16 +29,23 @@ export default () => ({
           options: { plugins: () => [precss, autoprefixer] },
         }],
     }, {
-      test: /\.(scss)$/,
-      use: [
-        { loader: 'style-loader' },
-        { loader: 'css-loader' },
-        {
-          loader: 'postcss-loader',
-          options: { plugins: () => [precss, autoprefixer] },
-        },
-        { loader: 'sass-loader' },
-      ],
+      test: /\.scss$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [
+          { loader: 'css-loader' },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: () => [precss, autoprefixer] },
+          },
+          { loader: 'sass-loader' },
+        ],
+      }),
     }],
   },
+  watch: argv.mode === 'development',
+  plugins: [
+    new webpack.NoEmitOnErrorsPlugin(),
+    new ExtractTextPlugin('[name].css'),
+  ],
 });
