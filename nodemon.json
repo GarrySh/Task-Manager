@@ -2,10 +2,11 @@
   "verbose": true,
   "ignore": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "public/assets"
   ],
   "env": {
-    "NODE_ENV": "development"
+    "NODE_ENV": "test"
   },
   "ext": "js json pug yml"
 }

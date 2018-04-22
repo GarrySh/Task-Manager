@@ -15,10 +15,9 @@
     "eslint": "eslint",
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
-    "watch": "nodemon",
     "build": "NODE_ENV=production babel app --out-dir dist --source-maps inline",
     "dev": "webpack --mode development",
-    "prod": " webpack --mode production",
+    "prod": "webpack --mode production",
     "start": "node dist/server.js"
   },
   "devDependencies": {
@@ -49,6 +48,7 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "jquery": "^3.3.1",
     "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
     "koa-logger": "^3.2.0",
     "koa-pug": "^3.0.0-2",
     "koa-router": "^7.4.0",

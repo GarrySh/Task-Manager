@@ -14,8 +14,9 @@ publish:
 lint:
 	yarn run eslint .
 
-watch:
-	yarn run watch
+dev: build
+	yarn run dev
+	yarn run start
 
 build:
 	rm -rf dist
@@ -25,5 +26,8 @@ clear:
 	rm -rf dist
 	rm -rf node_modules
 
-dev:
+webpackDev:
 	yarn run dev
+
+watch:
+	yarn nodemon --exec make dev

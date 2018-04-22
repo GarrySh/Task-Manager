@@ -47,7 +47,7 @@ export default (env, argv) => ({
       }),
     }],
   },
-  watch: argv.mode === 'development',
+  // watch: argv.mode === 'development',
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new ExtractTextPlugin('style.css'),
