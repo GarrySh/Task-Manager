@@ -8,5 +8,5 @@
   "env": {
     "NODE_ENV": "test"
   },
-  "ext": "js json pug yml"
+  "ext": "js json pug yml scss"
 }

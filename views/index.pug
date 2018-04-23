@@ -1,49 +1,90 @@
 extends /layouts/application.pug
 
 block content
-  nav.navbar.navbar-expand-md.navbar-dark.bg-dark
-    a.navbar-brand(href='#') Navbar
-    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarsExampleDefault', aria-controls='navbarsExampleDefault', aria-expanded='false', aria-label='Toggle navigation')
-      span.navbar-toggler-icon
-    #navbarsExampleDefault.collapse.navbar-collapse
-      ul.navbar-nav.mr-auto
-        li.nav-item.active
-          a.nav-link(href='#')
-            | Home 
-            span.sr-only (current)
-        li.nav-item
-          a.nav-link(href='#') Link
-        li.nav-item
-          a.nav-link.disabled(href='#') Disabled
-        li.nav-item.dropdown
-          a#dropdown01.nav-link.dropdown-toggle(href='http://example.com', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Dropdown
-          .dropdown-menu(aria-labelledby='dropdown01')
-            a.dropdown-item(href='#') Action
-            a.dropdown-item(href='#') Another action
-            a.dropdown-item(href='#') Something else here
-      form.form-inline.my-2.my-lg-0
-        input.form-control.mr-sm-2(type='text', placeholder='Search', aria-label='Search')
-        button.btn.btn-outline-success.my-2.my-sm-0(type='submit') Search
-  main.container(role='main')
-    .starter-template
-      h1 Bootstrap starter template
-      p.lead
-        | Use this document as a way to quickly start any new project.
-        br
-        |  All you get is this text and a mostly barebones HTML document.
-    .container
-      h1 add user
-      form(action="/users", method="post")
-        input(name="userName" placeholder="username")
-        input(type="submit", value="send data")
-    .container
-      table.table.table-dark
-        thead
-          tr
-            th ID
-            th username
-        tbody
-          each user in users
-            tr
-              td= user.id
-              td= user.userName
+  nav.navbar.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0.shadow
+    a.navbar-brand.col-sm-3.col-md-2.mr-0(href='#') Task manager
+    input.form-control.form-control-dark.w-100(type='text', placeholder='Search', aria-label='Search')
+    ul.navbar-nav.px-3
+      li.nav-item.text-nowrap
+        a.nav-link(href='#') Sign in
+  .container-fluid
+    .row
+      nav.col-md-2.d-none.d-md-block.bg-light.sidebar
+        .sidebar-sticky
+          ul.nav.flex-column
+            li.nav-item
+              a.nav-link.active(href='#')
+                span(data-feather='home')
+                |                 Dashboard 
+                span.sr-only (current)
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='file')
+                |                 Orders
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='shopping-cart')
+                |                 Products
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='users')
+                |                 Customers
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='bar-chart-2')
+                |                 Reports
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='layers')
+                |                 Integrations
+          h6.sidebar-heading.d-flex.justify-content-between.align-items-center.px-3.mt-4.mb-1.text-muted
+            span Saved reports
+            a.d-flex.align-items-center.text-muted(href='#')
+              span(data-feather='plus-circle')
+          ul.nav.flex-column.mb-2
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='file-text')
+                |                 Current month
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='file-text')
+                |                 Last quarter
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='file-text')
+                |                 Social engagement
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='file-text')
+                |                 Year-end sale
+      main.col-md-9.ml-sm-auto.col-lg-10.px-4(role='main')
+        .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+          h1.h2 Add user
+          .btn-toolbar.mb-2.mb-md-0
+            .btn-group.mr-2
+              button.btn.btn-sm.btn-outline-secondary Add
+              button.btn.btn-sm.btn-outline-secondary Delete
+            button.btn.btn-sm.btn-outline-secondary.dropdown-toggle
+              span(data-feather='calendar')
+              |               This week
+        .container      
+          form(action="/users", method="post")
+            input(name="userName" placeholder="username")
+            input(type="submit", value="send data")
+        h2 Users list
+        .table-responsive
+          table.table.table-striped.table-sm
+            thead
+              tr
+                th ID
+                th username
+            tbody
+              each user in users
+                tr
+                  td= user.id
+                  td= user.userName
+
+  script(src='https://unpkg.com/feather-icons/dist/feather.min.js')
+  script.
+    feather.replace()
