@@ -3,4 +3,4 @@ dist
 *.log
 .vscode
 .env
-public/assets
+app/public/assets

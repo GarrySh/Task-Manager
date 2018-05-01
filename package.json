@@ -15,12 +15,12 @@
     "eslint": "eslint",
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
-    "build": "NODE_ENV=production babel app --out-dir dist --source-maps inline",
-    "dev": "webpack --mode development",
-    "prod": "webpack --mode production",
-    "start": "node dist/server.js"
+    "build": "webpack --mode production",
+    "start": "gulp server",
+    "watch": "nodemon"
   },
   "devDependencies": {
+    "babel-eslint": "*",
     "eslint": "*",
     "eslint-config-airbnb-base": "*",
     "eslint-plugin-import": "*",
@@ -32,22 +32,24 @@
     "supertest": "*"
   },
   "dependencies": {
-    "autoprefixer": "^8.3.0",
+    "autoprefixer": "^8.4.1",
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.3",
+    "babel-core": "^6.26.3",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.26.0",
-    "bootstrap": "^4.1.0",
+    "bootstrap": "^4.1.1",
+    "browser-sync": "^2.24.1",
     "css-loader": "^0.28.11",
+    "debug": "^3.1.0",
     "dotenv": "^5.0.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "gulp": "^3.9.1",
     "jquery": "^3.3.1",
-    "koa": "^2.5.0",
+    "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.0",
     "koa-logger": "^3.2.0",
     "koa-pug": "^3.0.0-2",
@@ -62,7 +64,7 @@
     "sass-loader": "^7.0.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15"
+    "webpack-cli": "^2.1.2"
   },
   "repository": {
     "type": "git",

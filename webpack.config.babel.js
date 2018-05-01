@@ -4,15 +4,17 @@ import precss from 'precss';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
-export default (env, argv) => ({
+// export default (env, argv) => ({
+export default () => ({
   entry: {
-    app: ['./client/index.js'],
+    app: ['./app/client/index.js'],
   },
   output: {
-    path: path.resolve(__dirname, 'public', 'assets'),
+    path: path.resolve(__dirname, 'app', 'public', 'assets'),
     filename: '[name].bundle.js',
     publicPath: '/assets/',
   },
+  mode: 'development',
   module: {
     rules: [{
       test: /\.js$/,
@@ -36,7 +38,7 @@ export default (env, argv) => ({
         use: [
           {
             loader: 'css-loader',
-            options: { minimize: argv.mode === 'production' },
+            // options: { minimize: argv.mode === 'production' },
           },
           {
             loader: 'postcss-loader',

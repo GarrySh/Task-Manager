@@ -1,64 +1,43 @@
 import path from 'path';
-import dotenv from 'dotenv';
-import Rollbar from 'rollbar';
 import Koa from 'koa';
 import Router from 'koa-router';
-import logger from 'koa-logger';
-import serve from 'koa-static';
-import bodyparser from 'koa-bodyparser';
 import Pug from 'koa-pug';
+import koaLogger from 'koa-logger';
+import koaServe from 'koa-static';
+import koaBodyparser from 'koa-bodyparser';
+import koaWebpack from 'koa-webpack';
 
-dotenv.config();
-const rollbar = new Rollbar(process.env.ROLLBAR_ACCESS_TOKEN || '');
-
-const users = [
-  { id: 0, userName: 'admin' },
-  { id: 1, userName: 'garry' },
-];
+import addRoutes from './routes';
+import container from './container';
+import errorHandler from './middlewares/errorHandler';
+import getWebpackConfig from '../webpack.config.babel';
 
 export default () => {
   const app = new Koa();
-  const router = new Router();
 
-  app.use(logger());
-  app.use(serve(path.join(__dirname, '..', 'public')));
-  app.use(bodyparser());
+  app.use(koaLogger());
+  app.use(koaServe(path.join(__dirname, 'public')));
+  app.use(koaBodyparser());
 
-  router
-    .get('/', (ctx) => {
-      ctx.render('index', {
-        pageTitle: 'main page',
-        users,
-      });
-    })
-    .post('/users', (ctx) => {
-      users.push({
-        id: users.length,
-        userName: ctx.request.body.userName || '',
-      });
-      ctx.redirect('/');
-    })
-    .get('*', (ctx) => {
-      rollbar.error(`page ${ctx.href} not found`);
-    });
-
+  if (process.env.NODE_ENV === 'development') {
+    app.use(koaWebpack({
+      config: getWebpackConfig(),
+    }));
+  }
+  console.log(`current env ${process.env.NODE_ENV}`);
   const pug = new Pug({
-    viewPath: path.join(__dirname, '..', 'views'),
-    basedir: path.join(__dirname, '..', 'views'),
+    viewPath: path.join(__dirname, 'views'),
+    basedir: path.join(__dirname, 'views'),
     debug: true,
   });
   pug.use(app);
 
+  const router = new Router();
+  addRoutes(router, container);
   app.use(router.routes());
   app.use(router.allowedMethods());
-  app.use(async (ctx, next) => {
-    try {
-      await next();
-    } catch (err) {
-      rollbar.error(err);
-      throw new Error(`Error on Koa ${err}`);
-    }
-  });
+
+  app.use(errorHandler());
 
   return app;
 };

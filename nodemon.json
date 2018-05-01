@@ -3,10 +3,10 @@
   "ignore": [
     "dist",
     "node_modules",
-    "public/assets"
+    "app/public/assets"
   ],
   "env": {
-    "NODE_ENV": "test"
+    "NODE_ENV": "development"
   },
   "ext": "js json pug yml scss"
 }

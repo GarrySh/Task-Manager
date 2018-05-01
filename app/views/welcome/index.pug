@@ -1,0 +1,27 @@
+extends /layouts/application.pug
+
+block content
+  nav.navbar.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0.shadow
+    a.navbar-brand.col-sm-3.col-md-2.mr-0(href='#') Task manager
+    ul.navbar-nav.px-3
+      li.nav-item.text-nowrap
+        a.nav-link(href='#') Sign in
+  .container-fluid
+    .row
+      nav.col-md-2.d-none.d-md-block.bg-light.sidebar
+        .sidebar-sticky
+          ul.nav.flex-column
+            li.nav-item
+              a.nav-link.active(href='#')
+                span(data-feather='home')
+                | Dashboard 
+                span.sr-only (current)
+            li.nav-item
+              a.nav-link(href='#')
+                span(data-feather='users')
+                | Users
+
+
+  script(src='https://unpkg.com/feather-icons/dist/feather.min.js')
+  script.
+    feather.replace()

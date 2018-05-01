@@ -5,18 +5,13 @@ test:
 	yarn run test
 
 start: build
-	yarn run prod
-	yarn run start
+	NODE_ENV=production yarn run start
 
 publish:
 	yarn publish
 
 lint:
 	yarn run eslint .
-
-dev: build
-	yarn run dev
-	yarn run start
 
 build:
 	rm -rf dist
@@ -26,8 +21,5 @@ clear:
 	rm -rf dist
 	rm -rf node_modules
 
-webpackDev:
-	yarn run dev
-
 watch:
-	yarn nodemon --exec make dev
+	DEBUG='app:*' yarn nodemon --exec yarn gulp browser-sync
