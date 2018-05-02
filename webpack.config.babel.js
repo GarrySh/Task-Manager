@@ -2,7 +2,6 @@ import autoprefixer from 'autoprefixer';
 import path from 'path';
 import precss from 'precss';
 import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 // export default (env, argv) => ({
 export default () => ({
@@ -33,25 +32,21 @@ export default () => ({
         }],
     }, {
       test: /\.scss$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            // options: { minimize: argv.mode === 'production' },
-          },
-          {
-            loader: 'postcss-loader',
-            options: { plugins: () => [precss, autoprefixer] },
-          },
-          { loader: 'sass-loader' },
-        ],
-      }),
+      use: [
+        { loader: 'style-loader' },
+        {
+          loader: 'css-loader',
+          options: { minimize: process.env.NODE_ENV === 'production' },
+        },
+        {
+          loader: 'postcss-loader',
+          options: { plugins: () => [precss, autoprefixer] },
+        },
+        { loader: 'sass-loader' },
+      ],
     }],
   },
-  // watch: argv.mode === 'development',
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
-    new ExtractTextPlugin('style.css'),
   ],
 });

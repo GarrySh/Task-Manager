@@ -25,17 +25,22 @@ export default () => {
     }));
   }
   console.log(`current env ${process.env.NODE_ENV}`);
-  const pug = new Pug({
-    viewPath: path.join(__dirname, 'views'),
-    basedir: path.join(__dirname, 'views'),
-    debug: true,
-  });
-  pug.use(app);
 
   const router = new Router();
   addRoutes(router, container);
   app.use(router.routes());
   app.use(router.allowedMethods());
+
+  const pug = new Pug({
+    viewPath: path.join(__dirname, 'views'),
+    basedir: path.join(__dirname, 'views'),
+    noCache: process.env.NODE_ENV === 'development',
+    debug: process.env.NODE_ENV === 'development',
+    helperPath: [
+      { urlFor: (...args) => router.url(...args) },
+    ],
+  });
+  pug.use(app);
 
   app.use(errorHandler());
 

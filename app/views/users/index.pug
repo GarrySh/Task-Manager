@@ -1,28 +1,18 @@
 extends /layouts/application.pug
 
-main.col-md-9.ml-sm-auto.col-lg-10.px-4(role='main')
-  .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  h1.h2 Add user
-  .btn-toolbar.mb-2.mb-md-0
-    .btn-group.mr-2
-      button.btn.btn-sm.btn-outline-secondary Add
-      button.btn.btn-sm.btn-outline-secondary Delete
-    button.btn.btn-sm.btn-outline-secondary.dropdown-toggle
-      span(data-feather='calendar')
-      |               This week
-.container      
-  form(action="/users", method="post")
-    input(name="userName" placeholder="username")
-    input(type="submit", value="send data")
-h2 Users list
-  .table-responsive
-    table.table.table-striped.table-sm
-      thead
-        tr
-          th ID
-          th username
-      tbody
-        each user in users
+block content
+  .main-header.px-3.py-3.pt-md-5.pb-md-4.mx-auto.text-center
+    h1.display-4 Registred users list 
+    p.lead 
+      | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat excepturi vel dolorum nihil saepe expedita aut exercitationem nemo recusandae minima, alias in mollitia provident sint dolorem ad quibusdam repellendus aliquam?
+    .table-responsive
+      table.table.table-striped.table-sm
+        thead
           tr
-            td= user.id
-            td= user.userName
+            th ID
+            th username
+        tbody
+          each user in users
+            tr
+              td= user.id
+              td= user.userName
