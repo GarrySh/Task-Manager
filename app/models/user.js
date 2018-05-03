@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: 'dont allow empty string: firstName',
+          msg: 'firstName can not be empty',
         },
       },
     },
@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: 'dont allow empty string: firstName',
+          msg: 'lastName can not be empty',
         },
       },
     },
@@ -22,7 +22,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       validate: {
-        isEmail: true,
+        isEmail: {
+          msg: 'Email address must be valid',
+        },
       },
     },
     passwordDigest: {
@@ -39,7 +41,10 @@ export default (sequelize, DataTypes) => {
         return value;
       },
       validate: {
-        len: [1, +Infinity],
+        len: {
+          args: [6, +Infinity],
+          msg: 'Password must contains minimum 6 characters in length',
+        },
       },
     },
   }, {
