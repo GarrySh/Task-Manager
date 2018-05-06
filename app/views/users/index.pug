@@ -1,18 +1,24 @@
 extends /layouts/application.pug
 
 block content
-  .main-header.px-3.py-3.pt-md-5.pb-md-4.mx-auto.text-center
-    h1.display-4 Registred users list 
-    p.lead 
-      | Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat excepturi vel dolorum nihil saepe expedita aut exercitationem nemo recusandae minima, alias in mollitia provident sint dolorem ad quibusdam repellendus aliquam?
-    .table-responsive
-      table.table.table-striped.table-sm
-        thead
-          tr
-            th ID
-            th username
-        tbody
-          each user in users
+  .row.justify-content-md-center.mt-5
+    .col.text-center
+      h1.display-4 Registred users list 
+      p.lead 
+        | All registered users are displayed in this list. To add, use the 'Sign up' 
+        | button at the top of the page
+      .table-responsive
+        table.table.table-striped.table-sm
+          thead
             tr
-              td= user.id
-              td= user.userName
+              th ID
+              th First name
+              th Last name
+              th Email
+          tbody
+            each user in users
+              tr
+                td= user.id
+                td= user.firstName
+                td= user.lastName
+                td= user.email

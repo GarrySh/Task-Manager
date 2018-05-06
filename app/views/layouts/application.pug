@@ -1,3 +1,5 @@
+include /mixins/forms.pug
+
 doctype html
 html(lang='en')
   head
@@ -5,16 +7,31 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     link(rel='icon', href='/favicon.ico')    
     title= pageTitle
+    script(src="/assets/vendor.bundle.js") 
     script(src="/assets/app.bundle.js")   
   body
-    .d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-white.border-bottom.box-shadow
-      nav
-        a.btn.hero-btn.font-weight-normal(href='/') Task manager
-      nav.my-2.my-md-0.mr-md-3
-        a.p-2.text-dark(href=urlFor('users')) Users
-        a.p-2.text-dark(href='#') Tasks
-      nav.ml-auto
-        a.btn.btn-outline-primary(href=urlFor('newSession')) Sign in
-        a.btn.btn-outline-primary(href=urlFor('newUser')) Sign up
-    block content
-
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light.border-bottom.box-shadow.mb-3
+      a.navbar-brand(href='/') Task manager
+      .collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a.nav-link(href=urlFor('users')) Users
+          li.nav-item
+            a.nav-link(href=urlFor('tasks')) Tasks
+      ul.nav
+        if isSignedIn()   
+          li.nav-item
+            a.btn.btn-outline-secondary.ml-1(href=urlFor('userSettings')) Settings
+          li.nav-item
+            a.btn.btn-secondary.ml-1(href=urlFor('sessions') data-method='delete' rel='nofollow') Sign out
+        else
+          li.nav-item
+            a.btn.btn-outline-secondary(href=urlFor('newUser')) Sign up
+          li.nav-item
+            a.btn.btn-secondary.ml-1(href=urlFor('newSession')) Sign in
+    .container
+      - const msg = flash.get()
+      - console.log(msg)
+      if msg
+        .alert.alert-info.alert-dismissible= msg
+      block content   

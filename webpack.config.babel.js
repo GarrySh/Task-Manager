@@ -3,17 +3,17 @@ import path from 'path';
 import precss from 'precss';
 import webpack from 'webpack';
 
-// export default (env, argv) => ({
 export default () => ({
   entry: {
-    app: ['./app/client/index.js'],
+    app: ['./client/index.js'],
+    vendor: ['babel-polyfill', 'jquery', 'jquery-ujs', 'popper.js', 'bootstrap'],
   },
   output: {
     path: path.resolve(__dirname, 'app', 'public', 'assets'),
     filename: '[name].bundle.js',
     publicPath: '/assets/',
   },
-  mode: 'development',
+  mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [{
       test: /\.js$/,
@@ -48,5 +48,19 @@ export default () => ({
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default'],
+    }),
+    new webpack.optimize.SplitChunksPlugin({
+      name: 'vendors',
+      // filename: 'vendor.js',
+      minChunks: Infinity,
+    }),
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 100000, // Minimum number of characters
+    }),
   ],
 });

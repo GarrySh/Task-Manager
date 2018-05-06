@@ -2,6 +2,8 @@
 env:
   node: true
   jest: true
+  browser: true
+  jquery: true
 
 extends: 
   - 'airbnb-base'

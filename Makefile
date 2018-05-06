@@ -22,4 +22,7 @@ clear:
 	rm -rf node_modules
 
 watch:
-	DEBUG='app:*' yarn nodemon --exec yarn gulp browser-sync
+	DEBUG='app' yarn nodemon --exec yarn gulp browser-sync
+
+debug: build
+	NODE_ENV=development DEBUG='*' yarn run start
