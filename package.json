@@ -51,6 +51,7 @@
     "jquery-ujs": "^1.2.2",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.0",
+    "koa-flash-message": "^0.1.6",
     "koa-flash-simple": "^0.0.3",
     "koa-logger": "^3.2.0",
     "koa-methodoverride": "^2.0.0",

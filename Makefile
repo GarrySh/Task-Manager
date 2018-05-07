@@ -4,25 +4,25 @@ install:
 test:
 	yarn run test
 
-start: build
-	NODE_ENV=production yarn run start
-
 publish:
 	yarn publish
 
 lint:
 	yarn run eslint .
 
-build:
-	rm -rf dist
-	yarn run build
-
 clear:
 	rm -rf dist
 	rm -rf node_modules
+	rm db.development.sqlite
 
-watch:
+app-build:
+	yarn run build
+
+app-watch:
 	DEBUG='app' yarn nodemon --exec yarn gulp browser-sync
 
-debug: build
-	NODE_ENV=development DEBUG='*' yarn run start
+app-debug: app-build
+	DEBUG='*' yarn run start
+
+db-init:
+	yarn sequelize db:migrate

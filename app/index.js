@@ -8,11 +8,13 @@ import koaServe from 'koa-static';
 import koaBodyparser from 'koa-bodyparser';
 import koaWebpack from 'koa-webpack';
 import koaSession from 'koa-session';
-import koaFlash from 'koa-flash-simple';
+// import koaFlash from 'koa-flash-simple';
+// import koaFlashMessage from 'koa-flash-message';
 import koaMethodOverride from 'koa-methodoverride';
 
 import addRoutes from './routes';
 import container from './container';
+import koaFlash from './middlewares/flash';
 import errorHandler from './middlewares/errorHandler';
 import getWebpackConfig from '../webpack.config.babel';
 
@@ -26,9 +28,11 @@ export default () => {
   app.use(koaLogger());
   app.use(koaSession(app));
   app.use(koaFlash());
+  // app.use(koaFlashMessage);
   app.use(async (ctx, next) => {
     ctx.state = {
       flash: ctx.flash,
+      // flash: ctx.flashMessage,
       isSignedIn: () => ctx.session.userId !== undefined,
     };
     await next();
