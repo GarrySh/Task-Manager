@@ -6,7 +6,7 @@ import webpack from 'webpack';
 export default () => ({
   entry: {
     app: ['./client/index.js'],
-    vendor: ['babel-polyfill', 'jquery', 'jquery-ujs', 'popper.js', 'bootstrap'],
+    vendor: ['jquery', 'jquery-ujs', 'popper.js', 'bootstrap'],
   },
   output: {
     path: path.resolve(__dirname, 'app', 'public', 'assets'),

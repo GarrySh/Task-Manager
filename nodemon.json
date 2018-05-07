@@ -3,7 +3,8 @@
   "ignore": [
     "dist",
     "node_modules",
-    "app/public/assets"
+    "app/public/assets",
+    "db.development.sqlite*"
   ],
   "env": {
     "NODE_ENV": "development"

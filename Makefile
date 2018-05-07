@@ -24,5 +24,8 @@ app-watch:
 app-debug: app-build
 	DEBUG='*' yarn run start
 
+app-start: app-build
+	yarn run start
+
 db-init:
 	yarn sequelize db:migrate

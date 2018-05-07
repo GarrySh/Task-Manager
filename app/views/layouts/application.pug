@@ -19,15 +19,13 @@ html(lang='en')
           a.nav-link(href=urlFor('tasks')) Tasks
       nav.navbar-nav
         if isSignedIn()
-          a.btn.btn-outline-secondary.ml-1(href=urlFor('userSettings')) Settings
-          a.btn.btn-secondary.ml-1(href=urlFor('sessions') data-method='delete' rel='nofollow') Sign out
+          a.btn.btn-outline-secondary.ml-1(href=urlFor('user.edit', getUserId())) Settings
+          a.btn.btn-secondary.ml-1(href=urlFor('session') data-method='delete' rel='nofollow') Sign out
         else
-          a.btn.btn-outline-secondary(href=urlFor('newUser')) Sign up
-          a.btn.btn-secondary.ml-1(href=urlFor('newSession')) Sign in
+          a.btn.btn-outline-secondary(href=urlFor('user.new')) Sign up
+          a.btn.btn-secondary.ml-1(href=urlFor('session.new')) Sign in
     .container
-      //- - const msg = flash.warning
       - const msg = flash.get()
-      - console.log('flash message', msg)
       if msg
         .alert.alert-info.alert-dismissible= msg
       block content   

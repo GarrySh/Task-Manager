@@ -1,4 +1,4 @@
 node_modules
 dist
 app/public/assets
-
+app/models/index.js
