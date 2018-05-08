@@ -10,13 +10,13 @@ module.exports = {
     operatorsAliases: false,
   },
   production: {
-    // dialect: 'postgres',
+    dialect: 'postgres',
     use_env_variable: process.env.DATABASE_URL,
-    protocol: 'postgres',
+    // protocol: 'postgres',
     // username: process.env.DB_USERNAME,
     // password: process.env.DB_PASSWORD,
     // database: process.env.DB_NAME,
     // host: process.env.DB_HOSTNAME,
-    // operatorsAliases: false,
+    operatorsAliases: false,
   },
 };

@@ -62,6 +62,8 @@
     "koa-webpack": "^3.0.2",
     "lodash": "^4.17.10",
     "node-sass": "^4.8.3",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
     "popper.js": "^1.14.3",
     "postcss-loader": "^2.1.4",
     "precss": "^3.1.2",
