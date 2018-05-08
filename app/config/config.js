@@ -11,7 +11,7 @@ module.exports = {
   },
   production: {
     dialect: 'postgres',
-    use_env_variable: process.env.DATABASE_URL,
+    use_env_variable: 'postgres://nwcrpyhahsmqod:d4ef32d867f2516c1aae6b8fb3cb7e0c9691b6fca3d42d3c77fd313e53626111@ec2-54-246-84-200.eu-west-1.compute.amazonaws.com:5432/d1dps8d760mt6p',
     // protocol: 'postgres',
     // username: process.env.DB_USERNAME,
     // password: process.env.DB_PASSWORD,
