@@ -54,13 +54,13 @@ export default () => ({
       'window.jQuery': 'jquery',
       Popper: ['popper.js', 'default'],
     }),
-    new webpack.optimize.SplitChunksPlugin({
-      name: 'vendors',
-      // filename: 'vendor.js',
-      minChunks: Infinity,
-    }),
-    new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 100000, // Minimum number of characters
-    }),
+    // new webpack.optimize.SplitChunksPlugin({
+    //   name: 'vendors',
+    //   filename: 'vendor.bundle.js',
+    //   minChunks: Infinity,
+    // }),
+    // new webpack.optimize.MinChunkSizePlugin({
+    //   minChunkSize: 10000, // Minimum number of characters
+    // }),
   ],
 });
