@@ -15,7 +15,7 @@ html(lang='en')
         a.navbar-brand(href='/') Task manager
       nav.navbar-nav
         a.nav-link(href=urlFor('users')) Users
-        a.nav-link(href='#') Tasks
+        a.nav-link(href=urlFor('tasks')) Tasks
       nav.navbar-nav.ml-auto
         if isSignedIn()
           a.btn.btn-outline-secondary.ml-1(href=urlFor('user.edit', getUserId())) Settings
