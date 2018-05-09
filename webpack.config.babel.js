@@ -55,7 +55,7 @@ export default () => ({
       Popper: ['popper.js', 'default'],
     }),
     // new webpack.optimize.SplitChunksPlugin({
-    //   name: 'vendors',
+    //   name: 'common',
     //   filename: 'vendor.bundle.js',
     //   minChunks: Infinity,
     // }),
