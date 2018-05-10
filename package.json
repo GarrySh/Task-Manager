@@ -15,7 +15,6 @@
     "eslint": "eslint",
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
-    "build": "webpack --mode production",
     "install": "webpack --mode production",
     "start": "gulp server",
     "watch": "nodemon"

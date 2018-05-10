@@ -16,7 +16,7 @@ clear:
 	rm db.development.sqlite
 
 app-build:
-	yarn run build
+	yarn run install
 
 app-watch:
 	DEBUG='app' yarn nodemon --exec yarn gulp browser-sync
