@@ -15,6 +15,7 @@
     "eslint": "eslint",
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
+    "heroku-prebuild": "touch /app/app/public/1.txt",
     "build": "webpack --mode production",
     "start": "gulp server",
     "watch": "nodemon"
