@@ -15,8 +15,8 @@
     "eslint": "eslint",
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
-    "heroku-postbuild": "echo 'post build'",
     "build": "webpack --mode production",
+    "install": "webpack --mode production",
     "start": "gulp server",
     "watch": "nodemon"
   },
