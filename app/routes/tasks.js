@@ -1,4 +1,4 @@
-export default (router, { logger }) => {
+export default (router, { buildFormObj, logger }) => {
   const tasks = [
     {
       id: 1,
@@ -31,7 +31,7 @@ export default (router, { logger }) => {
   router
     .get('tasks', '/tasks', async (ctx) => {
       // const tasks = await Task.findAll();
-      ctx.render('tasks', { tasks, pageTitle: 'list all tasks' });
+      ctx.render('tasks', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
       logger('find all tasks');
     });
 };
