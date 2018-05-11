@@ -33,6 +33,11 @@ export default (router, { buildFormObj, logger }) => {
       // const tasks = await Task.findAll();
       ctx.render('tasks', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
       logger('find all tasks');
+    })
+    .get('tasks1', '/tasks1', async (ctx) => {
+      // const tasks = await Task.findAll();
+      ctx.render('tasks/index1', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
+      logger('find all tasks');
     });
 };
 

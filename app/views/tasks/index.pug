@@ -2,27 +2,36 @@ extends /layouts/application.pug
 
 block content
   .row.justify-content-md-center.mt-5
-    .col.text-center
-      h1.display-5 Registred tasks list 
-      p.lead 
-        | All registered taks are displayed in this list. Only reqistred users can add the tasks
-      
-      +formFor(f, { url: urlFor('users'), method: 'post' })
-      .containter  
-        .row  
+    .container
+      h1.display-5.text-center.mb-3 Registred tasks list              
+      form.p-3.bg-light
+        .row.mb-2.lign-items-center
+          p.lead.m-2 Filtred by:
+          input.btn.btn-outline-secondary.mr-3.ml-auto(type='submit' value='Apply filter')
+        .row
+          .col            
+            .form-group.row.align-items-center
+              label.col.m-2.px-0(for="taskStatus") Task status
+              .col-8
+                input#taskStatus.form-control(type="text")
+            .form-group.row.align-items-center
+              label.col.m-2.px-0(for="taskTags") Tags
+              .col-8
+                input#taskTags.form-control(type="text")
           .col
-            p Filtred by:       
-            +input(f, 'firstName', { id: 'form-signup-firstName', placeholder: 'First name' })
-            +input(f, 'lastName', { id: 'form-signup-lastName', placeholder: 'Last name' })
-          .col  
-            +input(f, 'email', { type: 'email', id: 'form-signup-email', placeholder: 'Email address' })
-            +input(f, 'password', { type: 'password', id: 'form-signup-password', placeholder: 'Password' })
-            +submit(f)
-      .row.pb-2
-        a.btn.btn-outline-secondary(href="#") Add task
+            .form-group.row.align-items-center
+              label.col.m-2.px-0(for="taskAssignedTo") Assigned to
+              .col-8
+                input#taskAssignedTo.form-control(type="text")
+            .form-group.row.align-items-center
+              label.col.m-2.px-0(for="inputCreator") Creator
+              .col-8
+                input#inputCreator.form-control(type="text")
+      .row.p-3
+        a.btn.btn-outline-secondary.mr-2(href="#") Add task
         a.btn.btn-outline-secondary(href="#") Add task status
       .table-responsive
-        table.table.table-striped.table-sm
+        table.table.table-based.table-sm
           thead
             tr
               th ID
