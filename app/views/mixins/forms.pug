@@ -12,8 +12,8 @@ mixin formFor(f, options = {})
 mixin input(f, property, options = { type: 'text' })
   - const value = f.object[property] === undefined ? '' : f.object[property]
   .form-label-group(class=(f.errors[property] && 'has-danger'))
-    input(name=getInputName(f, property) class='form-control' placeholder= options['placeholder'] type= options['type'] id= options['id'] value=`${value}`)
     label(for=options['id'])= options['placeholder']
+    input(name=getInputName(f, property) class='form-control' placeholder= options['placeholder'] type= options['type'] id= options['id'] value=`${value}`)
     if f.errors[property]
       .form-control-feedback= f.errors[property].map(({ message }) => message).join('. ')
 

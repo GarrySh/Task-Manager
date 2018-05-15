@@ -28,6 +28,7 @@
     "istanbul": "*",
     "jest": "*",
     "jest-cli": "*",
+    "jest-supertest-matchers": "^0.0.1",
     "nodemon": "*",
     "supertest": "*"
   },

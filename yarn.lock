@@ -3990,7 +3990,7 @@ gulp-util@^3.0.0:
     through2 "^2.0.0"
     vinyl "^0.5.0"
 
-gulp@^3.9.1:
+gulp@*, gulp@^3.9.1:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/gulp/-/gulp-3.9.1.tgz#571ce45928dd40af6514fc4011866016c13845b4"
   dependencies:
@@ -5093,7 +5093,7 @@ jest-leak-detector@^22.4.3:
   dependencies:
     pretty-format "^22.4.3"
 
-jest-matcher-utils@^22.4.3:
+jest-matcher-utils@*, jest-matcher-utils@^22.4.3:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-22.4.3.tgz#4632fe428ebc73ebc194d3c7b65d37b161f710ff"
   dependencies:
@@ -5187,6 +5187,14 @@ jest-snapshot@^22.4.3:
     mkdirp "^0.5.1"
     natural-compare "^1.4.0"
     pretty-format "^22.4.3"
+
+jest-supertest-matchers@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/jest-supertest-matchers/-/jest-supertest-matchers-0.0.1.tgz#69f492b18469adcd705a3514537aac5ac89988cb"
+  dependencies:
+    gulp "*"
+    jest-matcher-utils "*"
+    supertest "*"
 
 jest-util@^22.4.3:
   version "22.4.3"

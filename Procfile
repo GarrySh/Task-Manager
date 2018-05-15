@@ -1,2 +1,2 @@
-release: make db-init
-web: make app-start
+release: make db.init
+web: make app.start

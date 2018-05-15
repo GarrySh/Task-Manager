@@ -1,9 +1,6 @@
 install:
 	yarn install
 
-test:
-	yarn run test
-
 publish:
 	yarn publish
 
@@ -15,19 +12,25 @@ clear:
 	rm -rf node_modules
 	rm db.development.sqlite
 
-app-build:
+test:
+	yarn run test
+
+test.watch:
+	yarn jest --watch
+
+app.build:
 	yarn run install
 
-app-watch:
+app.watch:
 	DEBUG='app' yarn nodemon --exec yarn gulp browser-sync
 
-app-debug: app-build
+app.debug: app.build
 	DEBUG='*' yarn run start
 
-app-start: 
+app.start: 
 	yarn run start
 
-app-init: app-build db-init
+app.init: app.build db.init
 
-db-init:
-	yarn sequelize db:migrate
+db.init:
+	yarn sequelize db.migrate
