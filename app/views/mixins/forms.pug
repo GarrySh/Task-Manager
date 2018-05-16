@@ -1,4 +1,5 @@
 - const getInputName = (f, property) => `${f.name}[${property}]`
+- const getInputId = (f, property) => `${f.name}-${property}`
 
 mixin formFor(f, options = {})
   - const url = _.get(options, 'url');
@@ -10,12 +11,15 @@ mixin formFor(f, options = {})
     block
 
 mixin input(f, property, options = { type: 'text' })
+  - const name = getInputName(f, property)
+  - const id = getInputId(f, property)
   - const value = f.object[property] === undefined ? '' : f.object[property]
-  .form-label-group(class=(f.errors[property] && 'has-danger'))
-    label(for=options['id'])= options['placeholder']
-    input(name=getInputName(f, property) class='form-control' placeholder= options['placeholder'] type= options['type'] id= options['id'] value=`${value}`)
+  
+  .form-group
+    label(for= id)= options['label']
+    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= options['placeholder'] type= options['type'] id= id value=`${value}`)
     if f.errors[property]
-      .form-control-feedback= f.errors[property].map(({ message }) => message).join('. ')
+      .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
 
 mixin submit(f, value = 'Submit')
   .form-group
