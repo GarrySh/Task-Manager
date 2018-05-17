@@ -1,5 +1,5 @@
 - const getInputName = (f, property) => `${f.name}[${property}]`
-- const getInputId = (f, property) => `${f.name}-${property}`
+- const getId = (f, property) => `${f.name}-${property}-${_.random(0, 1000)}`
 
 mixin formFor(f, options = {})
   - const url = _.get(options, 'url');
@@ -12,9 +12,8 @@ mixin formFor(f, options = {})
 
 mixin input(f, property, options = { type: 'text' })
   - const name = getInputName(f, property)
-  - const id = getInputId(f, property)
-  - const value = f.object[property] === undefined ? '' : f.object[property]
-  
+  - const id = getId(f, property)
+  - const value = f.object[property] === undefined ? '' : f.object[property]  
   .form-group
     label(for= id)= options['label']
     input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= options['placeholder'] type= options['type'] id= id value=`${value}`)
@@ -24,3 +23,36 @@ mixin input(f, property, options = { type: 'text' })
 mixin submit(f, value = 'Submit')
   .form-group
     input.btn.btn-lg.btn-primary.btn-block(type='submit' value= value)
+
+mixin button(f, options = {})
+  - const modalId = getId(f, 'modal')
+  button.btn.btn-lg.btn-block.mb-3(class= options['class'] type='button' data-toggle='modal' data-target=`#${modalId}`)= options['text']
+  // Modal
+  .modal.fade(id= modalId tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#exampleModalLabel.modal-title Attention
+          button.close(type='button' data-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') ×
+        .modal-body= options['message']
+        .modal-footer
+          button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Accept changes
+
+//- mixin button(f, options = {})
+//-   button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
+//-     | Launch demo modal
+//-   // Modal
+//-   #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+//-     .modal-dialog(role='document')
+//-       .modal-content
+//-         .modal-header
+//-           h5#exampleModalLabel.modal-title Modal title
+//-           button.close(type='button' data-dismiss='modal' aria-label='Close')
+//-             span(aria-hidden='true') ×
+//-         .modal-body
+//-           | ...
+//-         .modal-footer
+//-           button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+//-           button.btn.btn-primary(type='button') Save changes
