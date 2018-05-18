@@ -7,7 +7,7 @@ import koaLogger from 'koa-logger';
 import koaServe from 'koa-static';
 import koaBodyparser from 'koa-bodyparser';
 import koaWebpack from 'koa-webpack';
-import koaSession from 'koa-session';
+import koaSession from 'koa-generic-session';
 import koaFlash from 'koa-flash-simple';
 import koaMethodOverride from 'koa-methodoverride';
 

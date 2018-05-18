@@ -24,10 +24,10 @@ export default (router, { buildFormObj, User, logger }) => {
       logger('new user form rendered');
     })
     .get('user.edit', '/users/:userId/edit', async (ctx) => {
-      const user = await User.findOne({
+      const { firstName, lastName, email } = await User.findOne({
         where: { id: ctx.session.userId },
       });
-      ctx.render('users/edit', { f: buildFormObj(user), pageTitle: 'edit user settings' });
+      ctx.render('users/edit', { f: buildFormObj({ firstName, lastName, email }), pageTitle: 'edit user settings' });
       logger('user edit form rendered');
     })
     .del('user.delete', '/users/:userId', async (ctx) => {

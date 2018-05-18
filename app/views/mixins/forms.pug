@@ -24,7 +24,7 @@ mixin submit(f, value = 'Submit')
   .form-group
     input.btn.btn-lg.btn-primary.btn-block(type='submit' value= value)
 
-mixin button(f, options = {})
+mixin button(f, addr, options = {})
   - const modalId = getId(f, 'modal')
   button.btn.btn-lg.btn-block.mb-3(class= options['class'] type='button' data-toggle='modal' data-target=`#${modalId}`)= options['text']
   // Modal
@@ -38,21 +38,4 @@ mixin button(f, options = {})
         .modal-body= options['message']
         .modal-footer
           button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-          button.btn.btn-primary(type='button') Accept changes
-
-//- mixin button(f, options = {})
-//-   button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-//-     | Launch demo modal
-//-   // Modal
-//-   #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
-//-     .modal-dialog(role='document')
-//-       .modal-content
-//-         .modal-header
-//-           h5#exampleModalLabel.modal-title Modal title
-//-           button.close(type='button' data-dismiss='modal' aria-label='Close')
-//-             span(aria-hidden='true') ×
-//-         .modal-body
-//-           | ...
-//-         .modal-footer
-//-           button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-//-           button.btn.btn-primary(type='button') Save changes
+          a.btn.btn-primary(href= addr data-method='delete' rel='nofollow') Accept changes

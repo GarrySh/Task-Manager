@@ -23,8 +23,10 @@ html(lang='en')
         else
           a.btn.btn-outline-secondary(href=urlFor('user.new')) Sign up
           a.btn.btn-secondary.ml-1(href=urlFor('session.new')) Sign in
-    .container.mt-5
-      - const msg = flash.get()
-      if msg
-        .alert.alert-info.alert-dismissible= msg
+    .container.mt-2
+      .row.justify-content-md-center.mb-5
+        .col
+          - const msg = flash.get()
+          if msg
+            .alert.alert-info.alert-dismissible.w-100.position-absolute= msg
       block content   

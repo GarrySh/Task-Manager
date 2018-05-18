@@ -32,6 +32,7 @@ gulp.task('browser-sync', ['server'], () => {
     proxy: `http://localhost:${PORT}`,
     port: PORT + 2,
     open: false,
+    notify: false,
   });
 });
 

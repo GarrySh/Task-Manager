@@ -16,18 +16,19 @@ export default (router, {
           where: { email, passwordDigest },
         });
         ctx.session.userId = user.id;
+        ctx.flash.set('successfully sign in');
         ctx.redirect(router.url('root'));
         logger(`user ID=${user.id} successfully logged in`);
       } catch (err) {
-        const { email } = ctx.request.body.form;
-        ctx.flash.set('email or password were wrong');
-        ctx.render('sessions/new', { f: buildFormObj({ email }) });
+        await ctx.flash.set('email or password were wrong');
+        ctx.redirect(router.url('session.new'));
         logger(`unsuccessfully authentication ${err}`);
       }
     })
     .del('session', '/sessions', (ctx) => {
       logger(`user ID=${ctx.session.userId} successfully logged out`);
       ctx.session = {};
+      ctx.flash.set('successfully sign out');
       ctx.redirect(router.url('root'));
     });
 };
