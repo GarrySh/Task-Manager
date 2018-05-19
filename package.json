@@ -20,17 +20,18 @@
     "watch": "nodemon"
   },
   "devDependencies": {
-    "babel-eslint": "*",
-    "eslint": "*",
-    "eslint-config-airbnb-base": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-jest": "*",
-    "istanbul": "*",
-    "jest": "*",
-    "jest-cli": "*",
-    "jest-supertest-matchers": "^0.0.1",
-    "nodemon": "*",
-    "supertest": "*"
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "faker": "^4.1.0",
+    "istanbul": "^0.4.5",
+    "jest": "^22.4.4",
+    "jest-cli": "^22.4.4",
+    "jest-supertest-cookie-fix": "^1.0.0",
+    "nodemon": "^1.17.4",
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "autoprefixer": "^8.4.1",

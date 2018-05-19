@@ -13,10 +13,12 @@ mixin formFor(f, options = {})
 mixin input(f, property, options = { type: 'text' })
   - const name = getInputName(f, property)
   - const id = getId(f, property)
-  - const value = f.object[property] === undefined ? '' : f.object[property]  
+  - const value = f.object[property] === undefined ? '' : f.object[property]
+  - const placeholder = options['placeholder'] === undefined ? '' : options['placeholder']
+  - const readOnly = options['readonly'] === true ? 'readonly' : false 
   .form-group
     label(for= id)= options['label']
-    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= options['placeholder'] type= options['type'] id= id value=`${value}`)
+    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= placeholder type= options['type'] id= id value=`${value}` readonly= readOnly)
     if f.errors[property]
       .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
 

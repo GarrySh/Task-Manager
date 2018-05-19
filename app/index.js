@@ -23,7 +23,9 @@ export default () => {
   const router = new Router();
 
   app.keys = ['some secret for sessions'];
-  app.use(koaLogger());
+  if (process.env.NODE_ENV !== 'test') {
+    app.use(koaLogger());
+  }
   app.use(koaSession(app));
   app.use(koaFlash());
   app.use(async (ctx, next) => {
