@@ -40,8 +40,6 @@ export default (router, { buildFormObj, User, logger }) => {
     .get('user.edit', '/users/:userId/edit', async (ctx) => {
       try {
         if (Number(ctx.params.userId) !== ctx.session.userId) {
-          console.log(1, ctx.params.userId);
-          console.log(2, ctx.session.userId);
           ctx.flash.set('access denied');
           ctx.response.status = 403;
           ctx.render('welcome/index');
@@ -55,7 +53,7 @@ export default (router, { buildFormObj, User, logger }) => {
         logger('user edit form rendered');
       } catch (err) {
         ctx.flash.set('error edit user');
-        ctx.response.status = 500;
+        ctx.response.status = 403;
         ctx.render('welcome/index');
         logger(`error edit user, ${err}`);
       }
@@ -84,13 +82,12 @@ export default (router, { buildFormObj, User, logger }) => {
         const { form } = ctx.request.body;
         const { password, ...restForm } = form;
         const newForm = password === '' ? restForm : form;
-        // const { firstName, lastName, email, password } = form;
-        // console.log('form', form);
         await user.update(newForm);
         ctx.flash.set('User successfully updated');
         ctx.redirect(router.url('root'));
         logger('user successfully updated');
       } catch (err) {
+        ctx.response.status = 403;
         ctx.render('users/edit', { f: buildFormObj(user, err), pageTitle: 'edit user settings' });
         logger(`user has not been updated, error ${err}`);
       }

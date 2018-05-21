@@ -62,6 +62,8 @@ describe('users CRUD tests', () => {
   let user;
   let session;
 
+  const changedEmail = faker.internet.email();
+
   beforeEach(async () => {
     user = {
       firstName: faker.name.firstName(),
@@ -69,6 +71,7 @@ describe('users CRUD tests', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
+
     session = agent(server);
 
     await session
@@ -121,14 +124,43 @@ describe('users CRUD tests', () => {
 
   test('update user', async () => {
     await session
-      .delete('/sessions')
+      .patch('/users/1')
+      .send({ form: { email: changedEmail } })
       .expect(302);
 
-    const rootPage = await session
-      .get('/')
+    const usersPage = await session
+      .get('/users')
       .expect(200);
 
-    expect(rootPage.text).toMatch('Sign in');
-    expect(rootPage.text).toMatch('Sign up');
+    expect(usersPage.text).toMatch(changedEmail);
   });
+
+  test('delete user', async () => {
+    await session
+      .del('/users/2')
+      .expect(302);
+
+    const usersPage = await session
+      .get('/users')
+      .expect(200);
+
+    expect(usersPage.text).not.toMatch(user.email);
+  });
+
+  // test('update user without authentication', async () => {
+  //   await session
+  //     .delete('/sessions')
+  //     .expect(302);
+
+  //   await session
+  //     .patch('/users/1')
+  //     .send({ form: { email: changedEmail } })
+  //     .expect(403);
+
+  //   const usersPage = await session
+  //     .get('/users')
+  //     .expect(200);
+
+  //   expect(usersPage.text).not.toMatch(changedEmail);
+  // });
 });
