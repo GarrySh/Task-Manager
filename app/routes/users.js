@@ -32,7 +32,7 @@ export default (router, { buildFormObj, User, logger }) => {
         logger('user show form rendered');
       } catch (err) {
         ctx.flash.set('user not found');
-        ctx.response.status = 404;
+        ctx.status = 404;
         ctx.render('welcome/index');
         logger(`user id:${ctx.params.userId} not found, ${err}`);
       }
@@ -41,7 +41,7 @@ export default (router, { buildFormObj, User, logger }) => {
       try {
         if (Number(ctx.params.userId) !== ctx.session.userId) {
           ctx.flash.set('access denied');
-          ctx.response.status = 403;
+          ctx.status = 403;
           ctx.render('welcome/index');
           logger(`user id:${ctx.session.userId} tried to edit user id:${ctx.params.userId}`);
           return;
@@ -53,7 +53,7 @@ export default (router, { buildFormObj, User, logger }) => {
         logger('user edit form rendered');
       } catch (err) {
         ctx.flash.set('error edit user');
-        ctx.response.status = 403;
+        ctx.status = 500;
         ctx.render('welcome/index');
         logger(`error edit user, ${err}`);
       }
@@ -70,6 +70,7 @@ export default (router, { buildFormObj, User, logger }) => {
         logger('user successfully deleted');
       } catch (err) {
         ctx.flash.set('user has not been deleted');
+        ctx.status = 403;
         logger(`user has not been deleted, error ${err}`);
       }
     })
@@ -87,8 +88,10 @@ export default (router, { buildFormObj, User, logger }) => {
         ctx.redirect(router.url('root'));
         logger('user successfully updated');
       } catch (err) {
-        ctx.response.status = 403;
-        ctx.render('users/edit', { f: buildFormObj(user, err), pageTitle: 'edit user settings' });
+        ctx.status = 403;
+        if (user !== null) {
+          ctx.render('users/edit', { f: buildFormObj(user, err), pageTitle: 'edit user settings' });
+        }
         logger(`user has not been updated, error ${err}`);
       }
     });

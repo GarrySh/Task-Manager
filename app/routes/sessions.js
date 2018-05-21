@@ -21,7 +21,9 @@ export default (router, {
         logger(`user ID=${user.id} successfully logged in`);
       } catch (err) {
         await ctx.flash.set('email or password were wrong');
+
         ctx.redirect(router.url('session.new'));
+        ctx.status = 401;
         logger(`unsuccessfully authentication ${err}`);
       }
     })

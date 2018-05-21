@@ -8,11 +8,12 @@ const { User } = container;
 let server;
 
 beforeAll(async () => {
-  await User.sync({ force: true });
+  // await User.sync({ force: true });
 });
 
-beforeEach(() => {
+beforeEach(async () => {
   server = app().listen();
+  await User.sync({ force: true });
 });
 
 afterEach((done) => {
@@ -62,7 +63,13 @@ describe('users CRUD tests', () => {
   let user;
   let session;
 
-  const changedEmail = faker.internet.email();
+  const emailToUpdate = faker.internet.email();
+  const emailToNotUpdate = faker.internet.email();
+
+  const userWithIncorrectCreditals = {
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  };
 
   beforeEach(async () => {
     user = {
@@ -122,22 +129,40 @@ describe('users CRUD tests', () => {
     expect(rootPage.text).toMatch('Sign up');
   });
 
+  test('sign in with incorrect credentials', async () => {
+    await session
+      .delete('/sessions')
+      .expect(302);
+
+    await session
+      .post('/sessions')
+      .send({ form: userWithIncorrectCreditals })
+      .expect(401);
+
+    const rootPage = await session
+      .get('/')
+      .expect(200);
+
+    expect(rootPage.text).toMatch('Sign in');
+    expect(rootPage.text).toMatch('Sign up');
+  });
+
   test('update user', async () => {
     await session
       .patch('/users/1')
-      .send({ form: { email: changedEmail } })
+      .send({ form: { email: emailToUpdate } })
       .expect(302);
 
     const usersPage = await session
       .get('/users')
       .expect(200);
 
-    expect(usersPage.text).toMatch(changedEmail);
+    expect(usersPage.text).toMatch(emailToUpdate);
   });
 
   test('delete user', async () => {
     await session
-      .del('/users/2')
+      .del('/users/1')
       .expect(302);
 
     const usersPage = await session
@@ -147,20 +172,37 @@ describe('users CRUD tests', () => {
     expect(usersPage.text).not.toMatch(user.email);
   });
 
-  // test('update user without authentication', async () => {
-  //   await session
-  //     .delete('/sessions')
-  //     .expect(302);
+  test('update user without authentication', async () => {
+    await session
+      .del('/sessions')
+      .expect(302);
 
-  //   await session
-  //     .patch('/users/1')
-  //     .send({ form: { email: changedEmail } })
-  //     .expect(403);
+    await session
+      .patch('/users/1')
+      .send({ form: { email: emailToNotUpdate } })
+      .expect(403);
 
-  //   const usersPage = await session
-  //     .get('/users')
-  //     .expect(200);
+    const usersPage = await session
+      .get('/users')
+      .expect(200);
 
-  //   expect(usersPage.text).not.toMatch(changedEmail);
-  // });
+    expect(usersPage.text).toMatch(user.email);
+    expect(usersPage.text).not.toMatch(emailToNotUpdate);
+  });
+
+  test('delete user without authentication', async () => {
+    await session
+      .del('/sessions')
+      .expect(302);
+
+    await session
+      .del('/users/1')
+      .expect(403);
+
+    const usersPage = await session
+      .get('/users')
+      .expect(200);
+
+    expect(usersPage.text).toMatch(user.email);
+  });
 });

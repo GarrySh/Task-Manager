@@ -9,5 +9,6 @@ block content
         +input(f, 'lastName', { label: 'Last name', placeholder: 'Enter your last name' })
         +input(f, 'email', { type: 'email', label: 'Email address', placeholder: 'Enter your email' })
         +input(f, 'password', { type: 'password', label: 'New password', placeholder: 'New password must contain min 8 char in length' })
-        +button(f, urlFor('user.delete', getUserId()), { class: 'btn-secondary', text: 'Delete user', message: 'Are you sure to delete the user?' })
-        +submit(f, 'Change settings')
+        if isSignedIn
+          +button(f, urlFor('user.delete', getUserId()), { class: 'btn-secondary', text: 'Delete user', message: 'Are you sure to delete the user?' })
+          +submit(f, 'Change settings')
