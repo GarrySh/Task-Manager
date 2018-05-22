@@ -13,7 +13,7 @@ export default (router, {
         const { email, password } = ctx.request.body.form;
         const passwordDigest = encrypt(password);
         const user = await User.findOne({
-          where: { email, passwordDigest },
+          where: { email, passwordDigest, state: 'active' },
         });
         ctx.session.userId = user.id;
         ctx.flash.set('successfully sign in');
