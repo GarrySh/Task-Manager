@@ -8,6 +8,7 @@ module.exports = {
     dialect: 'sqlite',
     storage: ':memory:',
     operatorsAliases: false,
+    logging: false,
   },
   production: {
     dialect: 'postgres',

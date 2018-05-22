@@ -36,7 +36,7 @@ export default (sequelize, DataTypes) => {
     state: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
+        isIn: [['active', 'inactive']],
       },
     },
   }, {

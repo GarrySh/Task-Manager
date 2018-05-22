@@ -9,6 +9,12 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
+    state: {
+      type: DataTypes.STRING,
+      validate: {
+        isIn: [['active', 'inactive']],
+      },
+    },
   }, {
     classMethods: {
       associate() {},
