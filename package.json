@@ -1,6 +1,6 @@
 {
   "name": "task-manager-garrysh",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "description": "Project task manager",
   "main": "dist/index.js",
   "bin": {
@@ -31,7 +31,8 @@
     "jest-cli": "^22.4.4",
     "jest-supertest-cookie-fix": "^1.0.0",
     "nodemon": "^1.17.4",
-    "supertest": "^3.1.0"
+    "supertest": "^3.1.0",
+    "browser-sync": "^2.24.1"
   },
   "dependencies": {
     "autoprefixer": "^8.4.1",
@@ -44,8 +45,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "babel-runtime": "^6.26.0",
-    "bootstrap": "^4.1.1",
-    "browser-sync": "^2.24.1",
+    "bootstrap": "^4.1.1",    
     "css-loader": "^0.28.11",
     "debug": "^3.1.0",
     "dotenv": "^5.0.1",
