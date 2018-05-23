@@ -8,9 +8,9 @@ import koaServe from 'koa-static';
 import koaBodyparser from 'koa-bodyparser';
 import koaWebpack from 'koa-webpack';
 import koaSession from 'koa-generic-session';
-import koaFlash from 'koa-flash-simple';
 import koaMethodOverride from 'koa-methodoverride';
 
+import flash from './middlewares/flash';
 import addRoutes from './routes';
 import container from './container';
 import errorHandler from './middlewares/errorHandler';
@@ -22,12 +22,15 @@ export default () => {
   const app = new Koa();
   const router = new Router();
 
-  app.keys = ['some secret for sessions'];
   if (process.env.NODE_ENV !== 'test') {
     app.use(koaLogger());
   }
+
+  addRoutes(router, container);
+
+  app.keys = ['some secret for sessions'];
   app.use(koaSession(app));
-  app.use(koaFlash());
+  app.use(flash());
   app.use(async (ctx, next) => {
     ctx.state = {
       flash: ctx.flash,
@@ -36,15 +39,6 @@ export default () => {
     };
     await next();
   });
-
-  if (process.env.NODE_ENV === 'development') {
-    app.use(koaWebpack({
-      config: getWebpackConfig(),
-    }));
-  }
-
-  addRoutes(router, container);
-  app.use(koaServe(path.join(__dirname, 'public')));
   app.use(koaBodyparser());
   app.use(koaMethodOverride((req) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -53,9 +47,15 @@ export default () => {
     return null;
   }));
 
-  app.use(router.routes());
-  app.use(router.allowedMethods({ throw: true }));
+  if (process.env.NODE_ENV === 'development') {
+    app.use(koaWebpack({
+      config: getWebpackConfig(),
+    }));
+  }
 
+  app.use(router.allowedMethods({ throw: true }));
+  app.use(router.routes());
+  app.use(koaServe(path.join(__dirname, 'public')));
 
   const pug = new Pug({
     viewPath: path.join(__dirname, 'views'),

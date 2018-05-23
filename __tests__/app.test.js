@@ -129,24 +129,6 @@ describe('users CRUD tests', () => {
     expect(rootPage.text).toMatch('Sign up');
   });
 
-  test('sign in with incorrect credentials', async () => {
-    await session
-      .delete('/sessions')
-      .expect(302);
-
-    await session
-      .post('/sessions')
-      .send({ form: userWithIncorrectCreditals })
-      .expect(401);
-
-    const rootPage = await session
-      .get('/')
-      .expect(200);
-
-    expect(rootPage.text).toMatch('Sign in');
-    expect(rootPage.text).toMatch('Sign up');
-  });
-
   test('update user', async () => {
     await session
       .patch('/users/1')
@@ -204,5 +186,23 @@ describe('users CRUD tests', () => {
       .expect(200);
 
     expect(usersPage.text).toMatch(user.email);
+  });
+
+  test('sign in with incorrect credentials', async () => {
+    await session
+      .delete('/sessions')
+      .expect(302);
+
+    await session
+      .post('/sessions')
+      .send({ form: userWithIncorrectCreditals })
+      .expect(401);
+
+    const rootPage = await session
+      .get('/')
+      .expect(200);
+
+    expect(rootPage.text).toMatch('Sign in');
+    expect(rootPage.text).toMatch('Sign up');
   });
 });

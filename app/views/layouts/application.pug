@@ -26,7 +26,7 @@ html(lang='en')
     .container.mt-2
       .row.justify-content-md-center.mb-5
         .col
-          - const msg = flash.get()
+          - const msg = flash.nowMessage || flash.get()
           if msg
             .alert.alert-info.alert-dismissible.w-100.position-absolute= msg
       block content   

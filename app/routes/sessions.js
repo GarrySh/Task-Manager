@@ -20,10 +20,9 @@ export default (router, {
         ctx.redirect(router.url('root'));
         logger(`user ID=${user.id} successfully logged in`);
       } catch (err) {
-        await ctx.flash.set('email or password were wrong');
-
-        ctx.redirect(router.url('session.new'));
+        ctx.flash.set('incorrect email or password', true);
         ctx.status = 401;
+        ctx.render('sessions/new', { f: buildFormObj() });
         logger(`unsuccessfully authentication ${err}`);
       }
     })

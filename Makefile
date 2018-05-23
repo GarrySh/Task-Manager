@@ -22,7 +22,7 @@ app.build:
 	yarn run install
 
 app.watch:
-	DEBUG='app' yarn nodemon --exec yarn gulp browser-sync
+	DEBUG='app, flash_middleware' yarn nodemon --exec yarn gulp browser-sync
 
 app.debug: app.build
 	DEBUG='*' yarn run start
