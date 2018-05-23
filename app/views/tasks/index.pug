@@ -11,25 +11,25 @@ block content
         .row
           .col            
             .form-group.row.align-items-center
-              label.col.m-2.px-0(for="taskStatus") Task status
+              label.col.m-2.px-0(for='taskStatus') Task status
               .col-8
-                input#taskStatus.form-control(type="text")
+                input#taskStatus.form-control(type='text')
             .form-group.row.align-items-center
-              label.col.m-2.px-0(for="taskTags") Tags
+              label.col.m-2.px-0(for='taskTags') Tags
               .col-8
-                input#taskTags.form-control(type="text")
+                input#taskTags.form-control(type='text')
           .col
             .form-group.row.align-items-center
-              label.col.m-2.px-0(for="taskAssignedTo") Assigned to
+              label.col.m-2.px-0(for='taskAssignedTo') Assigned to
               .col-8
-                input#taskAssignedTo.form-control(type="text")
+                input#taskAssignedTo.form-control(type='text')
             .form-group.row.align-items-center
-              label.col.m-2.px-0(for="inputCreator") Creator
+              label.col.m-2.px-0(for='inputCreator') Creator
               .col-8
-                input#inputCreator.form-control(type="text")
+                input#inputCreator.form-control(type='text')
       .row.p-3
-        a.btn.btn-outline-secondary.mr-2(href="#") Add task
-        a.btn.btn-outline-secondary(href="#") Add task status
+        a.btn.btn-outline-secondary.mr-2(href='#') Add task
+        a.btn.btn-outline-secondary(href= urlFor('statuses')) Modify task status 
       .table-responsive
         table.table.table-based.table-sm
           thead

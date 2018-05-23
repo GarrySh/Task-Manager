@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const TaskStatus = sequelize.define('TaskStatus', {
+  const Status = sequelize.define('Status', {
     name: {
       type: DataTypes.STRING,
       unique: true,
@@ -9,16 +9,10 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-    state: {
-      type: DataTypes.STRING,
-      validate: {
-        isIn: [['active', 'inactive']],
-      },
-    },
   }, {
     classMethods: {
       associate() {},
     },
   });
-  return TaskStatus;
+  return Status;
 };

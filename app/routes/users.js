@@ -23,7 +23,7 @@ export default (router, { buildFormObj, User, logger }) => {
     .get('user.new', '/users/new', (ctx) => {
       const user = User.build();
       ctx.render('users/new', { f: buildFormObj(user), pageTitle: 'add new user' });
-      logger('new user form rendered');
+      logger('display page: new user form');
     })
     .get('user.display', '/users/:userId', async (ctx) => {
       try {
@@ -31,7 +31,7 @@ export default (router, { buildFormObj, User, logger }) => {
           where: { id: ctx.params.userId, state: 'active' },
         });
         ctx.render('users/display', { f: buildFormObj({ firstName, lastName, email }), pageTitle: 'show user' });
-        logger('user show form rendered');
+        logger('display page: user display form');
       } catch (err) {
         ctx.flash.set('user not found');
         ctx.status = 404;
@@ -52,7 +52,7 @@ export default (router, { buildFormObj, User, logger }) => {
           where: { id: ctx.session.userId, state: 'active' },
         });
         ctx.render('users/edit', { f: buildFormObj({ firstName, lastName, email }), pageTitle: 'edit user settings' });
-        logger('user edit form rendered');
+        logger('display page: user edit form');
       } catch (err) {
         ctx.flash.set('error edit user');
         ctx.status = 500;
@@ -65,7 +65,6 @@ export default (router, { buildFormObj, User, logger }) => {
         const user = await User.findOne({
           where: { id: ctx.session.userId, state: 'active' },
         });
-        // await user.destroy();
         await user.update({ state: 'inactive' });
         ctx.session = {};
         ctx.flash.set('User successfully deleted');

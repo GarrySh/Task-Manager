@@ -9,6 +9,7 @@ import koaBodyparser from 'koa-bodyparser';
 import koaWebpack from 'koa-webpack';
 import koaSession from 'koa-generic-session';
 import koaMethodOverride from 'koa-methodoverride';
+import { format as dateFormat } from 'date-fns';
 
 import flash from './middlewares/flash';
 import addRoutes from './routes';
@@ -64,6 +65,7 @@ export default () => {
     debug: process.env.NODE_ENV === 'development',
     helperPath: [
       { _ },
+      { dateFormat },
       { urlFor: (...args) => router.url(...args) },
     ],
   });
