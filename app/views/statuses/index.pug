@@ -3,26 +3,12 @@ extends /layouts/application.pug
 block content
   .row.justify-content-md-center.mt-5
     .container
-      h1.display-5.text-center.mb-3 Modify task statuses              
-      
-        +formFor(f, { url: urlFor('statuses'), method: 'post' })
-          .row.p-3
-            .col                         
-              +input(f, 'name', { placeholder: 'Enter new status name' })
-            .col
-              +submit()
-      .table-responsive
-        table.table.table-based.table-sm
-          thead
-            tr
-              th ID
-              th Status name
-              th Created at
-              th Updated at
-          tbody
-            each status in statuses
-              tr
-                td= status.id
-                td= status.name
-                td= dateFormat(status.createdAt, 'DD MMM YYYY HH:MM:SS')
-                td= dateFormat(status.updatedAt, 'DD MMM YYYY HH:MM:SS') 
+      h1.display-5.mb-3 Modify task statuses
+      .row
+        .col.col-sm-6.col-md-4.col-lg-3.col-xl-3.p-3.shadow
+          +formFor(f, { url: urlFor('statuses'), method: 'post' })                         
+            +input(f, 'name', { label: 'create new status', placeholder: 'Enter new status name' })
+            +submit(f, 'add new status')
+        .col.col-sm-6.col-md-8.col-lg-9.col-xl-9
+          each status in statuses
+            a.btn.btn-outline-info.shadow.m-1(href= urlFor('status.edit', status.id))= status.name

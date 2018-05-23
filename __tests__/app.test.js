@@ -162,7 +162,7 @@ describe('users CRUD tests', () => {
     await session
       .patch('/users/1')
       .send({ form: { email: emailToNotUpdate } })
-      .expect(403);
+      .expect(400);
 
     const usersPage = await session
       .get('/users')
@@ -179,7 +179,7 @@ describe('users CRUD tests', () => {
 
     await session
       .del('/users/1')
-      .expect(403);
+      .expect(400);
 
     const usersPage = await session
       .get('/users')

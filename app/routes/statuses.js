@@ -18,6 +18,25 @@ export default (router, { Status, buildFormObj, logger }) => {
         ctx.render('statuses', { statuses, f: buildFormObj(status, err), pageTitle: 'modify task statuses' });
         logger(`status has not been created, error: ${err}`);
       }
+    })
+    .get('status.edit', '/statuses/:statusId/edit', async (ctx) => {
+      try {
+        if (!ctx.state.isSignedIn()) {
+          ctx.status = 403;
+          logger('unregistered user tried to edit task status');
+          return;
+        }
+        const status = await Status.findOne({
+          where: { id: ctx.params.statusId },
+        });
+        ctx.render('statuses/edit', { f: buildFormObj(status), pageTitle: 'edit task status' });
+        logger('display page: user edit form');
+      } catch (err) {
+        ctx.flash.set('error edit task status');
+        ctx.status = 500;
+        ctx.render('welcome/index');
+        logger(`error edit status, ${err}`);
+      }
     });
 };
 

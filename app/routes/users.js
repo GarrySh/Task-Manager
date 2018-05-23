@@ -71,8 +71,7 @@ export default (router, { buildFormObj, User, logger }) => {
         ctx.redirect(router.url('root'));
         logger('user successfully deleted');
       } catch (err) {
-        ctx.flash.set('user has not been deleted');
-        ctx.status = 403;
+        ctx.status = 400;
         logger(`user has not been deleted, error ${err}`);
       }
     })
@@ -90,7 +89,7 @@ export default (router, { buildFormObj, User, logger }) => {
         ctx.redirect(router.url('root'));
         logger('user successfully updated');
       } catch (err) {
-        ctx.status = 403;
+        ctx.status = 400;
         if (user !== null) {
           ctx.render('users/edit', { f: buildFormObj(user, err), pageTitle: 'edit user settings' });
         }
