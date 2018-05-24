@@ -6,9 +6,12 @@ block content
       h1.display-5.mb-3 Modify task statuses
       .row
         .col.col-sm-6.col-md-4.col-lg-3.col-xl-3.p-3.shadow
-          +formFor(f, { url: urlFor('statuses'), method: 'post' })                         
-            +input(f, 'name', { label: 'create new status', placeholder: 'Enter new status name' })
-            +submit(f, 'add new status')
+          if isSignedIn()
+            +formFor(f, { url: urlFor('statuses'), method: 'post' })                         
+              +input(f, 'name', { label: 'create new status', placeholder: 'Enter new status name' })
+              +submit(f, 'add new status')
+          else
+            p.lead Only registred users can create new statuses 
         .col.col-sm-6.col-md-8.col-lg-9.col-xl-9
           each status in statuses
             a.btn.btn-outline-info.shadow.m-1(href= urlFor('status.edit', status.id))= status.name
