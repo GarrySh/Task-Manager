@@ -6,6 +6,7 @@ import container from '../app/container';
 
 const { User, Status } = container;
 let server;
+let session;
 let user;
 
 beforeEach(async () => {
@@ -24,6 +25,12 @@ beforeEach(async () => {
   await request.agent(server)
     .post('/users')
     .send({ form: user })
+    .expect(302);
+
+  session = agent(server);
+  await session
+    .post('/sessions')
+    .send({ form: { email: user.email, password: user.password } })
     .expect(302);
 });
 
@@ -77,17 +84,7 @@ describe('page availability tests', () => {
 });
 
 describe('users CRUD tests', () => {
-  let session;
   const emailToUpdate = faker.internet.email();
-
-  beforeEach(async () => {
-    session = agent(server);
-
-    await session
-      .post('/sessions')
-      .send({ form: { email: user.email, password: user.password } })
-      .expect(302);
-  });
 
   test('sign up', async () => {
     const usersPage = await session
@@ -195,6 +192,51 @@ describe('users CRUD without authentication', () => {
   });
 });
 
-describe('task status CRUD tests without authentication', () => {
+describe('task status CRUD', () => {
+  let statusName;
 
+  beforeEach(async () => {
+    statusName = faker.random.word();
+
+    await session
+      .post('/statuses')
+      .send({ form: { name: statusName } })
+      .expect(302);
+  });
+
+  test('new status', async () => {
+    const statusPage = await session
+      .get('/statuses')
+      .expect(200);
+
+    expect(statusPage.text).toMatch(statusName);
+  });
+
+  test('delete status', async () => {
+    await session
+      .del('/statuses/1')
+      .expect(302);
+
+    const statusPage = await session
+      .get('/statuses')
+      .expect(200);
+
+    expect(statusPage.text).not.toMatch(statusName);
+  });
+
+  test('update status', async () => {
+    const newStatusName = faker.random.word();
+
+    await session
+      .patch('/statuses/1')
+      .send({ form: { name: newStatusName } })
+      .expect(302);
+
+    const statusPage = await session
+      .get('/statuses')
+      .expect(200);
+
+    expect(statusPage.text).toMatch(newStatusName);
+    expect(statusPage.text).not.toMatch(statusName);
+  });
 });
