@@ -3,6 +3,7 @@ export default (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: 'task status can`t be empty',

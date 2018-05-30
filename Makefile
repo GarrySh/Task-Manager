@@ -34,3 +34,7 @@ app.init: app.build db.init
 
 db.init:
 	yarn sequelize db:migrate
+
+db.clear:
+	rm db.development.sqlite
+	yarn sequelize db:migrate

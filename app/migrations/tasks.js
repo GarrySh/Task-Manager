@@ -14,14 +14,16 @@ module.exports = {
       description: {
         type: Sequelize.STRING,
       },
-      status: {
-        type: Sequelize.STRING,
+      statusId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      creator: {
-        type: Sequelize.STRING,
+      creatorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      assignedTo: {
-        type: Sequelize.STRING,
+      assignedToId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       tags: {
