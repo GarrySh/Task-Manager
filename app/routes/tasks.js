@@ -33,6 +33,11 @@ export default (router, { buildFormObj, Task, logger }) => {
       const tasks = await Task.findAll();
       ctx.render('tasks', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
       logger('display page: list all tasks');
+    })
+    .get('task.new', '/tasks/new', (ctx) => {
+      const task = Task.build();
+      ctx.render('tasks/new', { f: buildFormObj(task), pageTitle: 'create new task' });
+      logger('display page: new task form');
     });
 };
 
