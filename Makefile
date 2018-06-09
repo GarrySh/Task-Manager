@@ -32,6 +32,9 @@ app.start:
 
 app.init: app.build db.init
 
+app.console:
+	yarn console
+
 db.init:
 	yarn sequelize db:migrate
 

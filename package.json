@@ -16,6 +16,7 @@
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
     "install": "webpack --mode production",
+    "console": "gulp console",
     "start": "gulp server",
     "watch": "nodemon"
   },

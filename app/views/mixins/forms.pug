@@ -22,6 +22,15 @@ mixin input(f, property, options = { type: 'text' })
     if f.errors[property]
       .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
 
+mixin select(f, property, options = {})
+  - const name = getInputName(f, property)
+  - const id = getId(f, property)
+  .form-group
+    label(for= id)= options['label']
+    select.form-control(id= id name= name)
+      each item in options['data']
+        option(value= item.id)= item.name
+
 mixin submit(f, value = 'Submit')
   .form-group
     input.btn.btn-lg.btn-primary.btn-block(type='submit' value= value)

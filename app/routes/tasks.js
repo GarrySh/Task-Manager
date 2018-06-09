@@ -1,42 +1,34 @@
-export default (router, { buildFormObj, Task, logger }) => {
-  // const tasks = [
-  //   {
-  //     id: 1,
-  //     status: 'new',
-  //     name: 'test task',
-  //     description: 'test task for production server',
-  //     tags: 'new, production',
-  //     creator: 'Master',
-  //     assignedTo: 'Foma',
-  //   },
-  //   {
-  //     id: 2,
-  //     status: 'new',
-  //     name: 'test task',
-  //     description: 'test task for production server',
-  //     tags: 'main, inflow',
-  //     creator: 'Lame',
-  //     assignedTo: 'Anton',
-  //   },
-  //   {
-  //     id: 3,
-  //     status: 'new',
-  //     name: 'drink beer',
-  //     description: 'realy?',
-  //     tags: 'bottle, beer',
-  //     creator: 'Master',
-  //     assignedTo: 'Garry',
-  //   },
-  // ];
+export default (router, {
+  buildFormObj,
+  Task,
+  Status,
+  logger,
+}) => {
   router
     .get('tasks', '/tasks', async (ctx) => {
       const tasks = await Task.findAll();
       ctx.render('tasks', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
       logger('display page: list all tasks');
     })
-    .get('task.new', '/tasks/new', (ctx) => {
+    .post('tasks', '/tasks', async (ctx) => {
+      const { form } = ctx.request.body;
+      console.log(form);
+      // const user = User.build({ ...form, state: 'active' });
+      // try {
+      //   await user.save();
+      //   ctx.flash.set('User has been created');
+      //   ctx.redirect(router.url('root'));
+      //   logger(`user id=${user.id} successfully created`);
+      // } catch (err) {
+      //   ctx.render('users/new', { f: buildFormObj(user, err), pageTitle: 'add new user' });
+      //   logger(`user has not been created, error: ${err}`);
+      // }
+    })
+    .get('task.new', '/tasks/new', async (ctx) => {
+      const statuses = await Status.findAll();
+      // console.log('statuses', statuses.map(i => i.name));
       const task = Task.build();
-      ctx.render('tasks/new', { f: buildFormObj(task), pageTitle: 'create new task' });
+      ctx.render('tasks/new', { data: statuses, f: buildFormObj(task), pageTitle: 'create new task' });
       logger('display page: new task form');
     });
 };
