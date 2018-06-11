@@ -2,11 +2,28 @@ import { encrypt } from '../lib/secure';
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'First name can`t be empty',
+        },
+      },
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Last name can`t be empty',
+        },
+      },
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
       validate: {
         isEmail: {
           msg: 'Email address must be valid',
@@ -15,6 +32,7 @@ export default (sequelize, DataTypes) => {
     },
     passwordDigest: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true,
       },
@@ -35,17 +53,23 @@ export default (sequelize, DataTypes) => {
     },
     state: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         isIn: [['active', 'inactive']],
       },
     },
   }, {
-    classMethods: {
+    getterMethods: {
       fullName() {
         return `${this.firstName} ${this.lastName}`;
       },
-      associate() {},
     },
   });
+
+  User.associate = (models) => {
+    User.hasMany(models.Task, { foreignKey: 'creatorId', as: 'creator' });
+    User.hasMany(models.Task, { foreignKey: 'assignedToId', as: 'assignedTo' });
+  };
+
   return User;
 };

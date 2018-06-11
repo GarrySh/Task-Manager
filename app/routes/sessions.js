@@ -1,8 +1,5 @@
 export default (router, {
-  buildFormObj,
-  encrypt,
-  User,
-  logger,
+  buildFormObj, encrypt, User, logger,
 }) => {
   router
     .get('session.new', '/sessions/new', (ctx) => {

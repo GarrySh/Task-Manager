@@ -36,8 +36,10 @@ app.console:
 	yarn console
 
 db.init:
-	yarn sequelize db:migrate
+	# yarn sequelize db:migrate
+	yarn run initDb
 
 db.clear:
 	rm db.development.sqlite
-	yarn sequelize db:migrate
+	yarn run initDb
+	# yarn sequelize db:migrate

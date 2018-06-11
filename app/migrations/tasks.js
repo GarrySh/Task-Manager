@@ -20,7 +20,7 @@ module.exports = {
       },
       creatorId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        // allowNull: false,
       },
       assignedToId: {
         type: Sequelize.INTEGER,

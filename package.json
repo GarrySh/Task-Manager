@@ -18,6 +18,7 @@
     "install": "webpack --mode production",
     "console": "gulp console",
     "start": "gulp server",
+    "initDb": "gulp initDb",
     "watch": "nodemon"
   },
   "devDependencies": {

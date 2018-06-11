@@ -12,8 +12,7 @@ block content
           thead
             tr
               th ID
-              th First name
-              th Last name
+              th Full name
               th Email
               th Created at
               th Updated at
@@ -21,8 +20,7 @@ block content
             each user in users
               tr
                 td= user.id
-                td= user.firstName
-                td= user.lastName
+                td= user.fullName
                 td= user.email
                 td= dateFormat(user.createdAt, 'DD MMM YYYY HH:MM:SS')
                 td= dateFormat(user.updatedAt, 'DD MMM YYYY HH:MM:SS')

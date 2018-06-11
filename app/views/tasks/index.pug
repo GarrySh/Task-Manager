@@ -45,9 +45,9 @@ block content
             each task in tasks
               tr
                 td= task.id
-                td= task.status
+                td= task.status.name
                 td= task.name
                 td= task.description
                 td= task.tags
-                td= task.creator
-                td= task.assignedTo
+                td= task.creator.fullName
+                td= task.assignedTo.fullName

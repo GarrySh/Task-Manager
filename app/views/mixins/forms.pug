@@ -29,7 +29,7 @@ mixin select(f, property, options = {})
     label(for= id)= options['label']
     select.form-control(id= id name= name)
       each item in options['data']
-        option(value= item.id)= item.name
+        option(value= item.id)= item.fullName
 
 mixin submit(f, value = 'Submit')
   .form-group

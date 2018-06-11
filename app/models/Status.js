@@ -11,9 +11,16 @@ export default (sequelize, DataTypes) => {
       },
     },
   }, {
-    classMethods: {
-      associate() {},
+    getterMethods: {
+      fullName() {
+        return this.name;
+      },
     },
   });
+
+  Status.associate = (models) => {
+    Status.hasMany(models.Task, { foreignKey: 'statusId', as: 'status' });
+  };
+
   return Status;
 };

@@ -4,7 +4,7 @@ import browserSync from 'browser-sync';
 
 import container from './app/container';
 import getServer from './app';
-
+import initDb from './app/initDb';
 
 const PORT = process.env.PORT || 5000;
 
@@ -34,6 +34,10 @@ gulp.task('browser-sync', ['server'], () => {
     open: false,
     notify: false,
   });
+});
+
+gulp.task('initDb', async () => {
+  await initDb();
 });
 
 gulp.task('default', ['server']);

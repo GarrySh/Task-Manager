@@ -7,7 +7,7 @@ block content
         h1.display-5.mb-5.text-center Create new task     
         +input(f, 'name', { label: 'Name', placeholder: 'Enter new task name' })
         +input(f, 'description', { label: 'Description', placeholder: 'Enter task description' })
-        +select(f, 'status', { label: 'Status', data })
-        +input(f, 'assignedToId', { type: 'text', label: 'Assighed to', placeholder: 'Select' })
-        +input(f, 'tags', { type: 'text', label: 'Tags', placeholder: 'Add tags' })
-        +submit(f)      
+        +select(f, 'statusId', { label: 'Status', data: statuses })
+        +select(f, 'assignedToId', { label: 'Assighed to', data: users })
+        +input(f, 'tags', { type: 'text', label: 'Tags', placeholder: 'Add coma separated tags, e.g. "server config, nginx"' })
+        +submit(f)
