@@ -38,16 +38,16 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-    tags: DataTypes.STRING,
+    // tags: DataTypes.STRING,
   }, {});
 
   Task.associate = (models) => {
     Task.belongsTo(models.User, { as: 'creator' });
     Task.belongsTo(models.User, { as: 'assignedTo' });
     Task.belongsTo(models.Status, { as: 'status' });
-    // Task.belongsToMany(models.Tag, {
-    //   through: 'TaskTag',
-    // });
+    Task.belongsToMany(models.Tag, {
+      through: 'TaskTag',
+    });
   };
   return Task;
 };

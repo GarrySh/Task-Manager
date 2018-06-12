@@ -43,11 +43,14 @@ block content
               th Assigned to
           tbody
             each task in tasks
+
               tr
                 td= task.id
                 td= task.status.name
                 td= task.name
                 td= task.description
-                td= task.tags
+                td
+                  each tag in task.Tags
+                    a.btn.btn-sm.btn-outline-secondary.mr-1(href='#')= tag.name
                 td= task.creator.fullName
                 td= task.assignedTo.fullName

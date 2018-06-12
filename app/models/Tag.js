@@ -12,9 +12,9 @@ export default (sequelize, DataTypes) => {
     },
   }, {});
 
-  // Tag.associate = (models) => {
-  //   Tag.hasMany(models.Task, { foreignKey: 'statusId', as: 'status' });
-  // };
+  Tag.associate = (models) => {
+    Tag.belongsToMany(models.Task, { through: 'TaskTag' });
+  };
 
   return Tag;
 };
