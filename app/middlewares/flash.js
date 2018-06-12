@@ -16,13 +16,13 @@ export default () => (ctx, next) => {
 
   ctx.flash = Object.seal({
     get: () => prev,
-    set: (data, now) => {
+    set: (message, now) => {
       if (now) {
-        ctx.flash.nowMessage = data;
-        log('successfully set nowMessage ', data);
+        ctx.flash.nowMessage = message;
+        log('successfully set nowMessage ', message);
       } else {
-        ctx.session.flash = data;
-        log('successfully set flash message ', data);
+        ctx.session.flash = message;
+        log('successfully set flash message ', message);
       }
     },
     nowMessage: null,

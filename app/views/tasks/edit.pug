@@ -1,0 +1,13 @@
+extends /layouts/application.pug
+
+block content
+  .row.justify-content-md-center.mt-5
+    .col-12.col-sm-10.col-md-8.col-xl-6
+      +formFor(f, { url: urlFor('tasks'), method: 'post' })
+        h1.display-5.mb-5.text-center Create new task     
+        +input(f, 'name', { label: 'Name', placeholder: 'Enter new task name' })
+        +input(f, 'description', { label: 'Description', placeholder: 'Enter task description' })
+        +select(f, 'statusId', { label: 'Status', data: statuses })
+        +select(f, 'assignedToId', { label: 'Assighed to', data: users })
+        +input(f, 'tags', { type: 'text', label: 'Tags', placeholder: 'Add coma separated tags, e.g. "server config, nginx"' })
+        +submit(f)

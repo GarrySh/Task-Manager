@@ -23,9 +23,12 @@ export default (router, {
           await Promise.all(tags.map(tag =>
             Tag.findOne({ where: { name: tag } }).then((result) => {
               if (result) {
-                return task.addTag(result);
+                console.log('1', result);
+                task.addTag(result);
+                return;
               }
-              return task.createTag({ name: tag });
+              console.log('2', tag);
+              task.createTag({ name: tag });
             })));
         }
         await task.save();
@@ -35,7 +38,7 @@ export default (router, {
       } catch (err) {
         const statuses = await Status.findAll();
         const users = await User.findAll({ where: { state: 'active' } });
-        ctx.flash.set('Task has not been created');
+        ctx.flash.set('Task has not been created', true);
         ctx.render('tasks/new', {
           statuses, users, f: buildFormObj(task, err), pageTitle: 'create new task',
         });
@@ -50,6 +53,18 @@ export default (router, {
         statuses, users, f: buildFormObj(task), pageTitle: 'create new task',
       });
       logger('display page: new task form');
+    })
+    .get('task.edit', '/tasks/:taskId/edit', async (ctx) => {
+      const statuses = await Status.findAll();
+      const users = await User.findAll({ where: { state: 'active' } });
+      const task = await Task.findOne({
+        where: { id: ctx.params.taskId },
+      });
+      console.log('task', task);
+      ctx.render('tasks/edit', {
+        statuses, users, f: buildFormObj(task), pageTitle: 'edit task',
+      });
+
     });
 };
 

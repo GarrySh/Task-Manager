@@ -13,7 +13,6 @@ export default (sequelize, DataTypes) => {
     statusId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1,
       validate: {
         notEmpty: {
           msg: 'task status can`t be empty',
@@ -38,7 +37,6 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-    // tags: DataTypes.STRING,
   }, {});
 
   Task.associate = (models) => {

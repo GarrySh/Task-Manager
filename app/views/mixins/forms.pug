@@ -30,8 +30,10 @@ mixin select(f, property, options = {})
     label(for= id)= options['label']
     select.form-control(id= id name= name)
       each item in data
-        option(value= item.id)= item.fullName
-
+        if f.object[property] === item.id
+          option(selected value= item.id)= item.fullName
+        else
+          option(value= item.id)= item.fullName
 mixin submit(f, value = 'Submit')
   .form-group
     input.btn.btn-lg.btn-primary.btn-block(type='submit' value= value)
