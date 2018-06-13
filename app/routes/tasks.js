@@ -1,6 +1,18 @@
 export default (router, {
   buildFormObj, User, Task, Status, Tag, logger,
 }) => {
+  const updateTags = async (tags, task) => {
+    if (tags.length > 0) {
+      await Promise.all(tags.map(tag =>
+        Tag.findOne({ where: { name: tag } }).then((result) => {
+          if (result) {
+            return task.addTag(result);
+          }
+          return task.createTag({ name: tag });
+        })));
+    }
+  };
+
   router
     .get('tasks', '/tasks', async (ctx) => {
       const tasks = await Task.findAll({
@@ -18,19 +30,8 @@ export default (router, {
       const { form } = ctx.request.body;
       const task = Task.build({ ...form, creatorId: ctx.session.userId });
       try {
-        const tags = form.tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
-        if (tags.length > 0) {
-          await Promise.all(tags.map(tag =>
-            Tag.findOne({ where: { name: tag } }).then((result) => {
-              if (result) {
-                console.log('1', result);
-                task.addTag(result);
-                return;
-              }
-              console.log('2', tag);
-              task.createTag({ name: tag });
-            })));
-        }
+        const tags = form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+        updateTags(tags, task);
         await task.save();
         ctx.flash.set('Task has been created');
         ctx.redirect(router.url('tasks'));
@@ -59,12 +60,15 @@ export default (router, {
       const users = await User.findAll({ where: { state: 'active' } });
       const task = await Task.findOne({
         where: { id: ctx.params.taskId },
+        include: [
+          { model: Tag },
+        ],
       });
-      console.log('task', task);
+      // const tags = task.Tags.map(tag => tag.name).join(', ');
+      // console.log('task', task);
       ctx.render('tasks/edit', {
         statuses, users, f: buildFormObj(task), pageTitle: 'edit task',
       });
-
     });
 };
 

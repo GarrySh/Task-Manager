@@ -22,6 +22,18 @@ mixin input(f, property, options = { type: 'text' })
     if f.errors[property]
       .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
 
+mixin inputTags(f, property, options = { type: 'text' })
+  - const name = getInputName(f, property)
+  - const id = getId(f, property)
+  - const value = f.object[property] === undefined ? '' : f.object[property].map(tag => tag.name).join(', ')
+  - const placeholder = options['placeholder'] === undefined ? '' : options['placeholder']
+  - const readOnly = options['readonly'] === true ? 'readonly' : false 
+  .form-group
+    label(for= id)= options['label']
+    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= placeholder type= options['type'] id= id value=`${value}` readonly= readOnly)
+    if f.errors[property]
+      .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
+
 mixin select(f, property, options = {})
   - const name = getInputName(f, property)
   - const id = getId(f, property)
