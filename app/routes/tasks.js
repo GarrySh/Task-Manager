@@ -15,7 +15,7 @@ export default (router, {
   };
 
   router
-    .get('tasks.list', '/tasks', async (ctx) => {
+    .get('task.list', '/tasks', async (ctx) => {
       const tasks = await Task.findAll({
         include: [
           { model: User, as: 'creator' },
@@ -27,7 +27,7 @@ export default (router, {
       ctx.render('tasks', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
       logger('display page: list all tasks');
     })
-    .post('tasks', '/tasks', async (ctx) => {
+    .post('task', '/tasks', async (ctx) => {
       const { form } = ctx.request.body;
       const task = Task.build({ ...form, creatorId: ctx.session.userId });
       try {
@@ -35,7 +35,7 @@ export default (router, {
         await task.save();
         await updateTags(tags, task);
         ctx.flash.set('Task has been created');
-        ctx.redirect(router.url('tasks.list'));
+        ctx.redirect(router.url('task.list'));
         logger(`task id=${task.id} successfully created`);
       } catch (err) {
         const statuses = await Status.findAll();

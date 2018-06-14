@@ -1,11 +1,11 @@
 export default (router, { Status, buildFormObj, logger }) => {
   router
-    .get('statuses', '/statuses', async (ctx) => {
+    .get('status.list', '/statuses', async (ctx) => {
       const statuses = await Status.findAll();
       ctx.render('statuses', { statuses, f: buildFormObj(), pageTitle: 'modify task statuses' });
       logger('display page: list all task statuses');
     })
-    .post('statuses', '/statuses', async (ctx) => {
+    .post('status', '/statuses', async (ctx) => {
       const { form } = ctx.request.body;
       const status = Status.build(form);
       try {
@@ -16,7 +16,7 @@ export default (router, { Status, buildFormObj, logger }) => {
         }
         await status.save();
         ctx.flash.set('New status added');
-        ctx.redirect(router.url('statuses'));
+        ctx.redirect(router.url('status.list'));
         logger(`new status ${status.name} has been created`);
       } catch (err) {
         const statuses = await Status.findAll();
@@ -52,7 +52,7 @@ export default (router, { Status, buildFormObj, logger }) => {
         const { form } = ctx.request.body;
         await status.update(form);
         ctx.flash.set('Task status successfully updated');
-        ctx.redirect(router.url('statuses'));
+        ctx.redirect(router.url('status.list'));
         logger('Task status successfully updated');
       } catch (err) {
         ctx.status = 400;
@@ -69,7 +69,7 @@ export default (router, { Status, buildFormObj, logger }) => {
         });
         await status.destroy();
         ctx.flash.set('Status successfully deleted');
-        ctx.redirect(router.url('statuses'));
+        ctx.redirect(router.url('status.list'));
         logger('Status successfully deleted');
       } catch (err) {
         ctx.status = 400;

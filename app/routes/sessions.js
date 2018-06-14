@@ -24,7 +24,7 @@ export default (router, {
         logger(`unsuccessfully authentication ${err}`);
       }
     })
-    .del('session', '/sessions', (ctx) => {
+    .del('session.delete', '/sessions', (ctx) => {
       logger(`user ID=${ctx.session.userId} successfully logged out`);
       ctx.session = {};
       ctx.flash.set('successfully sign out');

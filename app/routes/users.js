@@ -1,11 +1,11 @@
 export default (router, { buildFormObj, User, logger }) => {
   router
-    .get('users', '/users', async (ctx) => {
+    .get('user.list', '/users', async (ctx) => {
       const users = await User.findAll();
       ctx.render('users', { users, pageTitle: 'list all users' });
       logger('find users');
     })
-    .post('users', '/users', async (ctx) => {
+    .post('user', '/users', async (ctx) => {
       const { form } = ctx.request.body;
       const user = User.build(form);
       try {
@@ -71,6 +71,8 @@ export default (router, { buildFormObj, User, logger }) => {
         logger('user successfully deleted');
       } catch (err) {
         ctx.status = 400;
+        ctx.flash.set('User can not be deleted', true);
+        ctx.render('welcome/index');
         logger(`user has not been deleted, error ${err}`);
       }
     })
