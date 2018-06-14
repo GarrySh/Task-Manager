@@ -1,9 +1,9 @@
 export default (router, {
   buildFormObj, User, Task, Status, Tag, logger,
 }) => {
-  const updateTags = async (tags, task) => {
+  const updateTags = (tags, task) => {
     if (tags.length > 0) {
-      await Promise.all(tags.map(tag =>
+      return Promise.all(tags.map(tag =>
         Tag.findOne({ where: { name: tag } }).then((result) => {
           if (result) {
             return task.addTag(result);
@@ -11,10 +11,11 @@ export default (router, {
           return task.createTag({ name: tag });
         })));
     }
+    return null;
   };
 
   router
-    .get('tasks', '/tasks', async (ctx) => {
+    .get('tasks.list', '/tasks', async (ctx) => {
       const tasks = await Task.findAll({
         include: [
           { model: User, as: 'creator' },
@@ -31,17 +32,17 @@ export default (router, {
       const task = Task.build({ ...form, creatorId: ctx.session.userId });
       try {
         const tags = form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
-        updateTags(tags, task);
         await task.save();
+        await updateTags(tags, task);
         ctx.flash.set('Task has been created');
-        ctx.redirect(router.url('tasks'));
+        ctx.redirect(router.url('tasks.list'));
         logger(`task id=${task.id} successfully created`);
       } catch (err) {
         const statuses = await Status.findAll();
         const users = await User.findAll({ where: { state: 'active' } });
         ctx.flash.set('Task has not been created', true);
         ctx.render('tasks/new', {
-          statuses, users, f: buildFormObj(task, err), pageTitle: 'create new task',
+          statuses, users, f: buildFormObj(task, err), pageTitle: 'create New task',
         });
         logger(`task has not been created, error: ${err}`);
       }
@@ -64,8 +65,6 @@ export default (router, {
           { model: Tag },
         ],
       });
-      // const tags = task.Tags.map(tag => tag.name).join(', ');
-      // console.log('task', task);
       ctx.render('tasks/edit', {
         statuses, users, f: buildFormObj(task), pageTitle: 'edit task',
       });
