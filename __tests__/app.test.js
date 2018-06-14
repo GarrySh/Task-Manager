@@ -3,9 +3,7 @@ import agent from 'jest-supertest-cookie-fix';
 import faker from 'faker';
 import app from '../app';
 import initDb from '../app/initDb';
-// import container from '../app/container';
 
-// const { User, Status, Task } = container;
 let server;
 let session;
 let user;
@@ -13,10 +11,6 @@ let user;
 beforeEach(async () => {
   server = app().listen();
   await initDb();
-
-  // await User.sync({ force: true });
-  // await Status.sync({ force: true });
-  // await Task.sync({ force: true });
 
   user = {
     firstName: faker.name.firstName(),
