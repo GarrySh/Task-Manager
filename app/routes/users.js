@@ -1,21 +1,20 @@
 export default (router, { buildFormObj, User, logger }) => {
   router
     .get('users', '/users', async (ctx) => {
-      const users = await User.findAll({
-        where: { state: 'active' },
-      });
+      const users = await User.findAll();
       ctx.render('users', { users, pageTitle: 'list all users' });
       logger('find users');
     })
     .post('users', '/users', async (ctx) => {
       const { form } = ctx.request.body;
-      const user = User.build({ ...form, state: 'active' });
+      const user = User.build(form);
       try {
         await user.save();
         ctx.flash.set('User has been created');
         ctx.redirect(router.url('root'));
         logger(`user id=${user.id} successfully created`);
       } catch (err) {
+        ctx.flash.set('User has not been created', true);
         ctx.render('users/new', { f: buildFormObj(user, err), pageTitle: 'add new user' });
         logger(`user has not been created, error: ${err}`);
       }
@@ -28,7 +27,7 @@ export default (router, { buildFormObj, User, logger }) => {
     .get('user.display', '/users/:userId', async (ctx) => {
       try {
         const { firstName, lastName, email } = await User.findOne({
-          where: { id: ctx.params.userId, state: 'active' },
+          where: { id: ctx.params.userId },
         });
         ctx.render('users/display', { f: buildFormObj({ firstName, lastName, email }), pageTitle: 'show user' });
         logger('display page: user display form');
@@ -49,7 +48,7 @@ export default (router, { buildFormObj, User, logger }) => {
           return;
         }
         const { firstName, lastName, email } = await User.findOne({
-          where: { id: ctx.session.userId, state: 'active' },
+          where: { id: ctx.session.userId },
         });
         ctx.render('users/edit', { f: buildFormObj({ firstName, lastName, email }), pageTitle: 'edit user settings' });
         logger('display page: user edit form');
@@ -63,9 +62,9 @@ export default (router, { buildFormObj, User, logger }) => {
     .del('user.delete', '/users/:userId', async (ctx) => {
       try {
         const user = await User.findOne({
-          where: { id: ctx.session.userId, state: 'active' },
+          where: { id: ctx.session.userId },
         });
-        await user.update({ state: 'inactive' });
+        await user.destroy();
         ctx.session = {};
         ctx.flash.set('User successfully deleted');
         ctx.redirect(router.url('root'));
@@ -79,7 +78,7 @@ export default (router, { buildFormObj, User, logger }) => {
       let user;
       try {
         user = await User.findOne({
-          where: { id: ctx.session.userId, state: 'active' },
+          where: { id: ctx.session.userId },
         });
         const { form } = ctx.request.body;
         const { password, ...restForm } = form;

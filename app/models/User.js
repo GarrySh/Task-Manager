@@ -51,13 +51,6 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-    state: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isIn: [['active', 'inactive']],
-      },
-    },
   }, {
     getterMethods: {
       fullName() {

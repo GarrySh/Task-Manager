@@ -39,7 +39,7 @@ export default (router, {
         logger(`task id=${task.id} successfully created`);
       } catch (err) {
         const statuses = await Status.findAll();
-        const users = await User.findAll({ where: { state: 'active' } });
+        const users = await User.findAll();
         ctx.flash.set('Task has not been created', true);
         ctx.render('tasks/new', {
           statuses, users, f: buildFormObj(task, err), pageTitle: 'create New task',
@@ -49,7 +49,7 @@ export default (router, {
     })
     .get('task.new', '/tasks/new', async (ctx) => {
       const statuses = await Status.findAll();
-      const users = await User.findAll({ where: { state: 'active' } });
+      const users = await User.findAll();
       const task = Task.build();
       ctx.render('tasks/new', {
         statuses, users, f: buildFormObj(task), pageTitle: 'create new task',
@@ -58,7 +58,7 @@ export default (router, {
     })
     .get('task.edit', '/tasks/:taskId/edit', async (ctx) => {
       const statuses = await Status.findAll();
-      const users = await User.findAll({ where: { state: 'active' } });
+      const users = await User.findAll();
       const task = await Task.findOne({
         where: { id: ctx.params.taskId },
         include: [
