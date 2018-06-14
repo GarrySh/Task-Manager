@@ -1,7 +1,7 @@
 export default (router, {
   buildFormObj, User, Task, Status, Tag, logger,
 }) => {
-  const updateTags = (tags, task) => {
+  const addTags = (tags, task) => {
     if (tags.length > 0) {
       return Promise.all(tags.map(tag =>
         Tag.findOne({ where: { name: tag } }).then((result) => {
@@ -12,6 +12,11 @@ export default (router, {
         })));
     }
     return null;
+  };
+
+  const updateTags = (tags, task) => {
+    console.log(task);
+    // const oldTags = task
   };
 
   router
@@ -33,7 +38,7 @@ export default (router, {
       try {
         const tags = form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
         await task.save();
-        await updateTags(tags, task);
+        await addTags(tags, task);
         ctx.flash.set('Task has been created');
         ctx.redirect(router.url('task.list'));
         logger(`task id=${task.id} successfully created`);
@@ -68,6 +73,19 @@ export default (router, {
       ctx.render('tasks/edit', {
         statuses, users, f: buildFormObj(task), pageTitle: 'edit task',
       });
+    })
+    .patch('task.update', '/tasks/:taskId', async (ctx) => {
+      const task = await Task.findOne({
+        where: { id: ctx.params.taskId },
+        include: [
+          { model: Tag },
+        ],
+      });
+      const { form } = ctx.request.body;
+      const tags = form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+      await task.update(form);
+      await updateTags(tags, task);
+      ctx.redirect(router.url('task.list'));
     });
 };
 
