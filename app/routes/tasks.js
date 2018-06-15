@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default (router, {
   buildFormObj, User, Task, Status, Tag, logger,
 }) => {
@@ -14,10 +16,24 @@ export default (router, {
     return null;
   };
 
-  const updateTags = (tags, task) => {
-    console.log(task);
-    // const oldTags = task
+  const removeTagsFromTask = (tags, task) => {
+    if (tags.length > 0) {
+      return Promise.all(tags.map(tag =>
+        Tag.findOne({ where: { name: tag } }).then(result => task.removeTag(result))));
+    }
+    return null;
   };
+
+  const checkTags = async (tags, task) => {
+    const currentTags = task.Tags.map(tag => tag.name);
+    const tagsToRemove = _.difference(currentTags, tags);
+    const tagsToAdd = _.difference(tags, currentTags);
+    await addTags(tagsToAdd, task);
+    await removeTagsFromTask(tagsToRemove, task);
+  };
+
+  const getTagsFromForm = form =>
+    form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
 
   router
     .get('task.list', '/tasks', async (ctx) => {
@@ -36,7 +52,7 @@ export default (router, {
       const { form } = ctx.request.body;
       const task = Task.build({ ...form, creatorId: ctx.session.userId });
       try {
-        const tags = form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+        const tags = getTagsFromForm(form);
         await task.save();
         await addTags(tags, task);
         ctx.flash.set('Task has been created');
@@ -75,17 +91,24 @@ export default (router, {
       });
     })
     .patch('task.update', '/tasks/:taskId', async (ctx) => {
-      const task = await Task.findOne({
-        where: { id: ctx.params.taskId },
-        include: [
-          { model: Tag },
-        ],
-      });
+      let task;
       const { form } = ctx.request.body;
-      const tags = form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
-      await task.update(form);
-      await updateTags(tags, task);
-      ctx.redirect(router.url('task.list'));
+      const tags = getTagsFromForm(form);
+      try {
+        task = await Task.findOne({
+          where: { id: ctx.params.taskId },
+          include: [
+            { model: Tag },
+          ],
+        });
+        await checkTags(tags, task);
+        await task.update(form);
+        ctx.flash.set('Task successfully updated');
+        ctx.redirect(router.url('task.list'));
+        logger('task successfully updated');
+      } catch (err) {
+        console.log(err);
+      }
     });
 };
 
