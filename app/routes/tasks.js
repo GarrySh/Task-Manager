@@ -32,8 +32,10 @@ export default (router, {
     await removeTagsFromTask(tagsToRemove, task);
   };
 
-  const getTagsFromForm = form =>
-    form.Tags.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+  const getTags = form =>
+    form.tagsStr.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+
+  const getTagsStr = task => task.Tags.map(tag => tag.name).join(', ') || '';
 
   router
     .get('task.list', '/tasks', async (ctx) => {
@@ -50,9 +52,9 @@ export default (router, {
     })
     .post('task', '/tasks', async (ctx) => {
       const { form } = ctx.request.body;
+      const tags = getTags(form);
       const task = Task.build({ ...form, creatorId: ctx.session.userId });
       try {
-        const tags = getTagsFromForm(form);
         await task.save();
         await addTags(tags, task);
         ctx.flash.set('Task has been created');
@@ -63,7 +65,7 @@ export default (router, {
         const users = await User.findAll();
         ctx.flash.set('Task has not been created', true);
         ctx.render('tasks/new', {
-          statuses, users, f: buildFormObj(task, err), pageTitle: 'create New task',
+          statuses, users, f: buildFormObj(form, err), pageTitle: 'create new task',
         });
         logger(`task has not been created, error: ${err}`);
       }
@@ -86,28 +88,65 @@ export default (router, {
           { model: Tag },
         ],
       });
+      task.tagsStr = getTagsStr(task);
       ctx.render('tasks/edit', {
         statuses, users, f: buildFormObj(task), pageTitle: 'edit task',
       });
     })
+    .get('task.display', '/tasks/:taskId', async (ctx) => {
+      const statuses = await Status.findAll();
+      const users = await User.findAll();
+      const task = await Task.findOne({
+        where: { id: ctx.params.taskId },
+        include: [
+          { model: Tag },
+        ],
+      });
+      task.tagsStr = getTagsStr(task);
+      ctx.render('tasks/display', {
+        statuses, users, f: buildFormObj(task), pageTitle: 'display task',
+      });
+    })
     .patch('task.update', '/tasks/:taskId', async (ctx) => {
-      let task;
       const { form } = ctx.request.body;
-      const tags = getTagsFromForm(form);
+      const tags = getTags(form);
+      const task = await Task.findOne({
+        where: { id: ctx.params.taskId },
+        include: [
+          { model: Tag },
+        ],
+      });
       try {
-        task = await Task.findOne({
-          where: { id: ctx.params.taskId },
-          include: [
-            { model: Tag },
-          ],
-        });
         await checkTags(tags, task);
         await task.update(form);
         ctx.flash.set('Task successfully updated');
         ctx.redirect(router.url('task.list'));
         logger('task successfully updated');
       } catch (err) {
-        console.log(err);
+        const statuses = await Status.findAll();
+        const users = await User.findAll();
+        task.tagsStr = getTagsStr(task);
+        ctx.flash.set('Task has not been modify', true);
+        ctx.render('tasks/edit', {
+          statuses, users, f: buildFormObj(task, err), pageTitle: 'edit task',
+        });
+        logger(`task has not been modify, error: ${err}`);
+      }
+    })
+    .del('task.delete', '/tasks/:taskId', async (ctx) => {
+      try {
+        const task = await Task.findOne({
+          where: { id: ctx.params.taskId },
+        });
+        await task.destroy();
+        ctx.flash.set('Task successfully deleted');
+        ctx.redirect(router.url('task.list'));
+        logger('task successfully deleted');
+      } catch (err) {
+        ctx.status = 400;
+        ctx.flash.set('Task can not be deleted', true);
+        ctx.render('tasks/index');
+        logger(`task has not been deleted, error ${err}`);
       }
     });
 };

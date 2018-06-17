@@ -2,13 +2,13 @@ export default (sequelize, DataTypes) => {
   const Tag = sequelize.define('Tag', {
     name: {
       type: DataTypes.STRING,
-      // unique: true,
+      unique: true,
       allowNull: false,
-      // validate: {
-      //   notEmpty: {
-      //     msg: 'tag can`t be empty',
-      //   },
-      // },
+      validate: {
+        notEmpty: {
+          msg: 'tag can`t be empty',
+        },
+      },
     },
   }, {});
 

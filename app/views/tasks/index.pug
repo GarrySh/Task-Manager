@@ -43,11 +43,13 @@ block content
               th Creator
           tbody
             each task in tasks
-
               tr
                 td= task.id
                 td
-                  a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.edit', task.id))= task.name
+                  if isSignedIn()
+                    a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.edit', task.id))= task.name
+                  else
+                    a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.display', task.id))= task.name
                 td= task.status.name
                 td= task.description
                 td

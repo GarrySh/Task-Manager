@@ -19,7 +19,11 @@ export default (sequelize, DataTypes) => {
   });
 
   Status.associate = (models) => {
-    Status.hasMany(models.Task, { foreignKey: 'statusId', as: 'status' });
+    Status.hasMany(models.Task, {
+      foreignKey: 'statusId',
+      as: 'status',
+      onDelete: 'SET NULL',
+    });
   };
 
   return Status;

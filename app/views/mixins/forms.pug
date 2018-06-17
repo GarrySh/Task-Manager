@@ -1,5 +1,6 @@
 - const getInputName = (f, property) => `${f.name}[${property}]`
 - const getId = (f, property) => `${f.name}-${property}-${_.random(0, 1000)}`
+- const isReadOnly = (options) => options['readonly'] === true
 
 mixin formFor(f, options = {})
   - const url = _.get(options, 'url');
@@ -15,22 +16,9 @@ mixin input(f, property, options = { type: 'text' })
   - const id = getId(f, property)
   - const value = f.object[property] === undefined ? '' : f.object[property]
   - const placeholder = options['placeholder'] === undefined ? '' : options['placeholder']
-  - const readOnly = options['readonly'] === true ? 'readonly' : false 
   .form-group
     label(for= id)= options['label']
-    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= placeholder type= options['type'] id= id value=`${value}` readonly= readOnly)
-    if f.errors[property]
-      .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
-
-mixin inputTags(f, property, options = { type: 'text' })
-  - const name = getInputName(f, property)
-  - const id = getId(f, property)
-  - const value = f.object[property] === undefined ? '' : f.object[property].map(tag => tag.name).join(', ')
-  - const placeholder = options['placeholder'] === undefined ? '' : options['placeholder']
-  - const readOnly = options['readonly'] === true ? 'readonly' : false 
-  .form-group
-    label(for= id)= options['label']
-    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= placeholder type= options['type'] id= id value=`${value}` readonly= readOnly)
+    input.form-control(name= name class=(f.errors[property] && 'is-invalid') placeholder= placeholder type= options['type'] id= id value=`${value}` readonly= isReadOnly(options))
     if f.errors[property]
       .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
 
@@ -40,9 +28,9 @@ mixin select(f, property, options = {})
   - const data = options['data'] ? options['data'] : []
   .form-group
     label(for= id)= options['label']
-    select.form-control(id= id name= name)
+    select.form-control(id= id name= name readonly= isReadOnly(options))
       each item in data
-        if f.object[property] === item.id
+        if String(f.object[property]) === String(item.id)
           option(selected value= item.id)= item.fullName
         else
           option(value= item.id)= item.fullName
