@@ -44,11 +44,10 @@ export default (router, { Status, buildFormObj, logger }) => {
       }
     })
     .patch('status.update', '/statuses/:statusId', async (ctx) => {
-      let status;
+      const status = await Status.findOne({
+        where: { id: ctx.params.statusId },
+      });
       try {
-        status = await Status.findOne({
-          where: { id: ctx.params.statusId },
-        });
         const { form } = ctx.request.body;
         await status.update(form);
         ctx.flash.set('Task status successfully updated');
@@ -59,7 +58,7 @@ export default (router, { Status, buildFormObj, logger }) => {
         if (status !== null) {
           ctx.render('statuses/edit', { f: buildFormObj(status, err), pageTitle: 'edit status settings' });
         }
-        logger(`user has not been updated, error ${err}`);
+        logger(`status has not been updated, error ${err}`);
       }
     })
     .del('status.delete', '/statuses/:statusId', async (ctx) => {
@@ -73,6 +72,8 @@ export default (router, { Status, buildFormObj, logger }) => {
         logger('Status successfully deleted');
       } catch (err) {
         ctx.status = 400;
+        ctx.flash.set('Status has not been deleted');
+        ctx.redirect(router.url('status.list'));
         logger(`status has not been deleted, error ${err}`);
       }
     });
