@@ -4,7 +4,7 @@ block content
   .row.justify-content-md-center.mt-5
     .col-12.col-sm-10.col-md-8.col-xl-6
       +formFor(f, { url: urlFor('user.update', getUserId()), method: 'patch' })
-        h1.display-5.mb-5.text-center Edit user settings      
+        h1.display-5.mb-5.text-center Edit user settings
         +input(f, 'firstName', { label: 'First name', placeholder: 'Enter your first name' })
         +input(f, 'lastName', { label: 'Last name', placeholder: 'Enter your last name' })
         +input(f, 'email', { type: 'email', label: 'Email address', placeholder: 'Enter your email' })

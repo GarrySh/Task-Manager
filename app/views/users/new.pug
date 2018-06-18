@@ -4,9 +4,9 @@ block content
   .row.justify-content-md-center.mt-5
     .col-12.col-sm-10.col-md-8.col-xl-6
       +formFor(f, { url: urlFor('user'), method: 'post' })
-        h1.display-5.mb-5.text-center Please sign up      
+        h1.display-5.mb-5.text-center Please sign up
         +input(f, 'firstName', { label: 'First name', placeholder: 'Enter your first name' })
         +input(f, 'lastName', { label: 'Last name', placeholder: 'Enter your last name' })
         +input(f, 'email', { type: 'email', label: 'Email address', placeholder: 'Enter your email' })
         +input(f, 'password', { type: 'password', label: 'Password', placeholder: 'Password must contains min 8 characters in length' })
-        +submit(f)      
+        +submit(f)

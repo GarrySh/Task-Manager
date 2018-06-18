@@ -4,7 +4,7 @@ block content
   .row.justify-content-md-center.mt-5
     .col-12.col-sm-10.col-md-8.col-xl-6
       +formFor(f)
-        h1.display-5.mb-5.text-center Dispay user settings      
+        h1.display-5.mb-5.text-center Dispay user settings
         +input(f, 'firstName', { label: 'First name' , readonly: true })
         +input(f, 'lastName', { label: 'Last name', readonly: true })
         +input(f, 'email', { label: 'Email address', readonly: true })
