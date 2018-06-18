@@ -57,6 +57,7 @@ export default (sequelize, DataTypes) => {
         return `${this.firstName} ${this.lastName}`;
       },
     },
+    freezeTableName: true,
   });
 
   User.associate = (models) => {

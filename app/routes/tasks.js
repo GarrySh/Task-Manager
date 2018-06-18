@@ -33,7 +33,7 @@ export default (router, {
   };
 
   const getTags = form =>
-    form.tagsStr.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+    form && form.tagsStr && form.tagsStr.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
 
   const getTagsStr = task => task.Tags.map(tag => tag.name).join(', ') || '';
 
@@ -61,6 +61,7 @@ export default (router, {
         ctx.redirect(router.url('task.list'));
         logger(`task id=${task.id} successfully created`);
       } catch (err) {
+        ctx.status = 400;
         const statuses = await Status.findAll();
         const users = await User.findAll();
         ctx.flash.set('Task has not been created', true);
@@ -123,6 +124,7 @@ export default (router, {
         ctx.redirect(router.url('task.list'));
         logger('task successfully updated');
       } catch (err) {
+        ctx.status = 400;
         const statuses = await Status.findAll();
         const users = await User.findAll();
         task.tagsStr = getTagsStr(task);
@@ -135,9 +137,11 @@ export default (router, {
     })
     .del('task.delete', '/tasks/:taskId', async (ctx) => {
       try {
+        console.log('task id', ctx.params.taskId);
         const task = await Task.findOne({
           where: { id: ctx.params.taskId },
         });
+        console.log('task', task);
         await task.destroy();
         ctx.flash.set('Task successfully deleted');
         ctx.redirect(router.url('task.list'));

@@ -16,6 +16,7 @@ export default (sequelize, DataTypes) => {
         return this.name;
       },
     },
+    freezeTableName: true,
   });
 
   Status.associate = (models) => {

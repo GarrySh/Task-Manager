@@ -37,7 +37,9 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-  }, {});
+  }, {
+    freezeTableName: true,
+  });
 
   Task.associate = (models) => {
     Task.belongsTo(models.User, { as: 'creator' });

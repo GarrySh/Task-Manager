@@ -10,7 +10,9 @@ export default (sequelize, DataTypes) => {
         },
       },
     },
-  }, {});
+  }, {
+    freezeTableName: true,
+  });
 
   Tag.associate = (models) => {
     Tag.belongsToMany(models.Task, { through: 'TaskTag' });
