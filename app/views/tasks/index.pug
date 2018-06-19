@@ -4,72 +4,47 @@ block content
   .row.justify-content-md-center.mt-5
     .container
       h1.display-5.text-center.mb-3 Registred tasks list
-      form.p-3.bg-light(action= urlFor('task.list') method='get')
-        .row.mb-2.lign-items-center
-          p.lead.m-2 Filtred by:
+      +formFor(f, { url: urlFor('task.list'), method: 'get' })
+        .row.p-3
+          a.btn.btn-outline-secondary.mr-2(href= urlFor('task.new')) Add task
+          a.btn.btn-outline-secondary(href= urlFor('status')) Modify task status
           input.btn.btn-outline-secondary.mr-3.ml-auto(type='submit' value='Apply filter')
-        .row
-          .col
-            .form-group.row.align-items-center
-              label.col.m-2.px-0(for='taskStatus') Task status
-              .col-8
-                //input#taskStatus.form-control(type='text' name='statusId')
-                select.form-control(id='taskStatus' name='statusId' )
-                  option='-'
-                  each item in statuses
-                    if String(f.object[property]) === String(item.id)
-                      option(selected value= item.id)= item.fullName
-                    else
-                      option(value= item.id)= item.fullName
-            .form-group.row.align-items-center
-              label.col.m-2.px-0(for='taskTags') Tags
-              .col-8
-                input#taskTags.form-control(type='text', name='taskTags')
-          .col
-            .form-group.row.align-items-center
-              label.col.m-2.px-0(for='taskAssignedTo') Assigned to
-              .col-8
-                input#taskAssignedTo.form-control(type='text' name='assignedToId')
-            .form-group.row.align-items-center
-              label.col.m-2.px-0(for='inputCreator') Creator
-              .col-8
-                input#inputCreator.form-control(type='text' name='creatorId')
-      .row.p-3
-        a.btn.btn-outline-secondary.mr-2(href= urlFor('task.new')) Add task
-        a.btn.btn-outline-secondary(href= urlFor('status')) Modify task status 
-      .table-responsive
-        table.table.table-based.table-sm
-          thead
-            tr
-              th ID
-              th Task name
-              th Status
-              th Description
-              th Tags
-              th Assigned to
-              th Creator
-          tbody
-            tr.table-secondary
-              td
-              td
-              td
-                +selectFilter(f, 'statusId', { label: 'Status', data: statuses })
-              td
-              td
-              td
-              td
-            each task in tasks
+        .table-responsive
+          table.table.table-based.table-sm
+            thead
               tr
-                td= task.id
+                th ID
+                th Task name
+                th Description
+                th Status
+                th Tags
+                th Assigned to
+                th Creator
+            tbody
+              tr.table-secondary
                 td
-                  if isSignedIn()
-                    a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.edit', task.id))= task.name
-                  else
-                    a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.display', task.id))= task.name
-                td= task.status.name
-                td= task.description
                 td
-                  each tag in task.Tags
-                    a.btn.btn-sm.btn-outline-secondary.mr-1(href='#')= tag.name
-                td= task.assignedTo.fullName
-                td= task.creator.fullName
+                td
+                td
+                  +selectF(f, 'statusId', { data: statuses })
+                td
+                  +inputF(f, 'tagsStr')
+                td
+                  +selectF(f, 'assignedToId', { data: users })
+                td
+                  +selectF(f, 'creatorId', { data: users })
+              each task in tasks
+                tr
+                  td= task.id
+                  td
+                    if isSignedIn()
+                      a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.edit', task.id))= task.name
+                    else
+                      a.btn.btn-sm.btn-outline-secondary(href= urlFor('task.display', task.id))= task.name
+                  td= task.description
+                  td= task.status.name
+                  td
+                    each tag in task.Tags
+                      a.btn.btn-sm.btn-outline-secondary.mr-1(href='#')= tag.name
+                  td= task.assignedTo.fullName
+                  td= task.creator.fullName

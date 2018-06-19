@@ -49,9 +49,9 @@ export default () => {
   }));
 
   if (process.env.NODE_ENV === 'development') {
-    app.use(koaWebpack({
+    koaWebpack({
       config: getWebpackConfig(),
-    }));
+    }).then(middleware => app.use(middleware));
   }
 
   app.use(router.allowedMethods({ throw: true }));

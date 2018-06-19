@@ -35,12 +35,19 @@ mixin select(f, property, options = {})
         else
           option(value= item.id)= item.fullName
 
-mixin selectFilter(f, property, options = {})
-  - const name = getInputName(f, property)
+mixin inputF(f, property)
+  - const name = String(property)
+  - const id = getId(f, property)
+  - const value = f.object[property] === undefined ? '' : f.object[property]
+  input.form-control(name= name type='text' id= id value=`${value}`)
+
+
+mixin selectF(f, property, options = {})
+  - const name = String(property)
   - const id = getId(f, property)
   - const data = options['data'] ? options['data'] : []
-    select.form-control(id= id name= name readonly= isReadOnly(options))
-      option='-'
+    select.form-control(id= id name= name)
+      option(value='')='-'
       each item in data
         if String(f.object[property]) === String(item.id)
           option(selected value= item.id)= item.fullName

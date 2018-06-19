@@ -37,21 +37,24 @@ export default (router, {
 
   const getTagsStr = task => task.Tags.map(tag => tag.name).join(', ') || '';
 
+  const getQuery = (query, property) => (query[property] === '' ? '' : ({ id: query[property] }));
+
   router
     .get('task.list', '/tasks', async (ctx) => {
       const { query } = ctx.request;
+      console.log('query', query);
       const statuses = await Status.findAll();
+      const users = await User.findAll();
       const tasks = await Task.findAll({
         include: [
-          { model: User, as: 'creator' },
-          { model: User, as: 'assignedTo' },
-          { model: Status, as: 'status' },
+          { model: User, as: 'creator', where: getQuery(query, 'creatorId') },
+          { model: User, as: 'assignedTo', where: getQuery(query, 'assignedToId') },
+          { model: Status, as: 'status', where: getQuery(query, 'statusId') },
           { model: Tag },
-          // { model: Tag, where: { id: 1 } },
         ],
       });
       ctx.render('tasks/index', {
-        tasks, statuses, f: buildFormObj(), pageTitle: 'list all tasks',
+        tasks, statuses, users, f: buildFormObj(query), pageTitle: 'list all tasks',
       });
       logger('display page: list all tasks');
     })
@@ -142,11 +145,11 @@ export default (router, {
     })
     .del('task.delete', '/tasks/:taskId', async (ctx) => {
       try {
-        console.log('task id', ctx.params.taskId);
+        // console.log('task id', ctx.params.taskId);
         const task = await Task.findOne({
           where: { id: ctx.params.taskId },
         });
-        console.log('task', task);
+        // console.log('task', task);
         await task.destroy();
         ctx.flash.set('Task successfully deleted');
         ctx.redirect(router.url('task.list'));
