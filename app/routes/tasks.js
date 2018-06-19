@@ -39,15 +39,20 @@ export default (router, {
 
   router
     .get('task.list', '/tasks', async (ctx) => {
+      const { query } = ctx.request;
+      const statuses = await Status.findAll();
       const tasks = await Task.findAll({
         include: [
           { model: User, as: 'creator' },
           { model: User, as: 'assignedTo' },
           { model: Status, as: 'status' },
           { model: Tag },
+          // { model: Tag, where: { id: 1 } },
         ],
       });
-      ctx.render('tasks', { tasks, f: buildFormObj(), pageTitle: 'list all tasks' });
+      ctx.render('tasks/index', {
+        tasks, statuses, f: buildFormObj(), pageTitle: 'list all tasks',
+      });
       logger('display page: list all tasks');
     })
     .post('task', '/tasks', async (ctx) => {
