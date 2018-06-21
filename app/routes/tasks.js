@@ -32,35 +32,38 @@ export default (router, {
     await removeTagsFromTask(tagsToRemove, task);
   };
 
-  const getTags = form =>
-    form && form.tagsStr && form.tagsStr.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
+  const getTagsArr = tagsStr => tagsStr.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0);
 
   const getTagsStr = task => task.Tags.map(tag => tag.name).join(', ') || '';
 
-  const getQuery = (query, property) => (query[property] === '' ? '' : ({ id: query[property] }));
+  const getQueryById = (query, property) =>
+    (query[property] === '' || query[property] === undefined ? '' : ({ id: query[property] }));
+
+  const getQueryByName = (query, property) =>
+    (query[property] === '' || query[property] === undefined ? '' : ({ name: query[property] }));
 
   router
     .get('task.list', '/tasks', async (ctx) => {
       const { query } = ctx.request;
-      console.log('query', query);
       const statuses = await Status.findAll();
       const users = await User.findAll();
+      const tags = await Tag.findAll({ include: [{ model: Task }] });
       const tasks = await Task.findAll({
         include: [
-          { model: User, as: 'creator', where: getQuery(query, 'creatorId') },
-          { model: User, as: 'assignedTo', where: getQuery(query, 'assignedToId') },
-          { model: Status, as: 'status', where: getQuery(query, 'statusId') },
-          { model: Tag },
+          { model: User, as: 'creator', where: getQueryById(query, 'creatorId') },
+          { model: User, as: 'assignedTo', where: getQueryById(query, 'assignedToId') },
+          { model: Status, as: 'status', where: getQueryById(query, 'statusId') },
+          { model: Tag, where: getQueryByName(query, 'tagsStr') },
         ],
       });
       ctx.render('tasks/index', {
-        tasks, statuses, users, f: buildFormObj(query), pageTitle: 'list all tasks',
+        tasks, statuses, users, tags, f: buildFormObj(query), pageTitle: 'list all tasks',
       });
       logger('display page: list all tasks');
     })
     .post('task', '/tasks', async (ctx) => {
       const { form } = ctx.request.body;
-      const tags = getTags(form);
+      const tags = getTagsArr(form.tagsStr);
       const task = Task.build({ ...form, creatorId: ctx.session.userId });
       try {
         await task.save();
@@ -118,7 +121,7 @@ export default (router, {
     })
     .patch('task.update', '/tasks/:taskId', async (ctx) => {
       const { form } = ctx.request.body;
-      const tags = getTags(form);
+      const tags = getTagsArr(form.tagsStr);
       const task = await Task.findOne({
         where: { id: ctx.params.taskId },
         include: [
@@ -145,11 +148,9 @@ export default (router, {
     })
     .del('task.delete', '/tasks/:taskId', async (ctx) => {
       try {
-        // console.log('task id', ctx.params.taskId);
         const task = await Task.findOne({
           where: { id: ctx.params.taskId },
         });
-        // console.log('task', task);
         await task.destroy();
         ctx.flash.set('Task successfully deleted');
         ctx.redirect(router.url('task.list'));

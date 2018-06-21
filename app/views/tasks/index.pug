@@ -6,9 +6,10 @@ block content
       h1.display-5.text-center.mb-3 Registred tasks list
       +formFor(f, { url: urlFor('task.list'), method: 'get' })
         .row.p-3
-          a.btn.btn-outline-secondary.mr-2(href= urlFor('task.new')) Add task
-          a.btn.btn-outline-secondary(href= urlFor('status')) Modify task status
-          input.btn.btn-outline-secondary.mr-3.ml-auto(type='submit' value='Apply filter')
+          if isSignedIn()
+            a.btn.btn-outline-secondary.mr-2(href= urlFor('task.new')) Add task
+            a.btn.btn-outline-secondary(href= urlFor('status')) Modify task status
+            input.btn.btn-outline-secondary.ml-auto(type='submit' value='Apply filter')
         .table-responsive
           table.table.table-based.table-sm
             thead
@@ -44,7 +45,9 @@ block content
                   td= task.description
                   td= task.status.name
                   td
-                    each tag in task.Tags
-                      a.btn.btn-sm.btn-outline-secondary.mr-1(href='#')= tag.name
+                    each tag in tags
+                      each tagTask in tag.Tasks
+                        if tagTask.id === task.id
+                          a.btn.btn-sm.btn-outline-secondary.mr-1(href='#')= tag.name
                   td= task.assignedTo.fullName
                   td= task.creator.fullName

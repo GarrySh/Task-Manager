@@ -47,7 +47,7 @@ mixin selectF(f, property, options = {})
   - const id = getId(f, property)
   - const data = options['data'] ? options['data'] : []
     select.form-control(id= id name= name)
-      option(value='')='-'
+      option(value='' selected)='-'
       each item in data
         if String(f.object[property]) === String(item.id)
           option(selected value= item.id)= item.fullName
