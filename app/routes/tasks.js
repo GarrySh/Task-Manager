@@ -36,11 +36,11 @@ export default (router, {
 
   const getTagsStr = task => task.Tags.map(tag => tag.name).join(', ') || '';
 
-  const getQueryById = (query, property) =>
-    (query[property] === '' || query[property] === undefined ? '' : ({ id: query[property] }));
+  const getQueryForCol = (query, property, colomn) =>
+    (query[property] === '' || query[property] === undefined ? '' : ({ [colomn]: query[property] }));
 
-  const getQueryByName = (query, property) =>
-    (query[property] === '' || query[property] === undefined ? '' : ({ name: query[property] }));
+  // const getQueryByName = (query, property) =>
+  //   (query[property] === '' || query[property] === undefined ? '' : ({ name: query[property] }));
 
   router
     .get('task.list', '/tasks', async (ctx) => {
@@ -50,10 +50,10 @@ export default (router, {
       const tags = await Tag.findAll({ include: [{ model: Task }] });
       const tasks = await Task.findAll({
         include: [
-          { model: User, as: 'creator', where: getQueryById(query, 'creatorId') },
-          { model: User, as: 'assignedTo', where: getQueryById(query, 'assignedToId') },
-          { model: Status, as: 'status', where: getQueryById(query, 'statusId') },
-          { model: Tag, where: getQueryByName(query, 'tagsStr') },
+          { model: User, as: 'creator', where: getQueryForCol(query, 'creatorId', 'id') },
+          { model: User, as: 'assignedTo', where: getQueryForCol(query, 'assignedToId', 'id') },
+          { model: Status, as: 'status', where: getQueryForCol(query, 'statusId', 'id') },
+          { model: Tag, where: getQueryForCol(query, 'tagsStr', 'name') },
         ],
       });
       ctx.render('tasks/index', {
