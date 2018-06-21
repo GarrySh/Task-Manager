@@ -261,13 +261,13 @@ describe('task CRUD', () => {
       .expect(302);
   });
 
-  // test('test1', async () => {
-  //   const tasksPage = await session
-  //     .get('/tasks')
-  //     .expect(200);
+  test('test1', async () => {
+    const tasksPage = await session
+      .get('/tasks')
+      .expect(200);
 
-  //   expect(tasksPage.text).toMatch(task.name);
-  // });
+    expect(tasksPage.text).toMatch(task.name);
+  });
 
   // test('test2', async () => {
   //   const tasksPage = await session

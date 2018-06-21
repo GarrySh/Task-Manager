@@ -6,6 +6,16 @@
 
 Online demo version: https://task-manager-garrysh.herokuapp.com/
 
+## Description
+
+Simple task manager - 4 backend project on hexlet.io
+All users can view the list of tasks and users. Authenticated users can create and edit tasks. Deleting users is available only to themselves
+
+Backend: Node.JS whith koaJs web framework, pug, rollbar, sequelise ORM, postgerSQL in prod and sqlite in dev
+Frontend: bootstrap, webpack
+Tests: jest, supertest, faker
+Deploy: heroku
+
 ## Requirements
 
 * Node.JS

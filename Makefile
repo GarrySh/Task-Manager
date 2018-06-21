@@ -15,6 +15,8 @@ clear:
 test:
 	yarn run test
 
+start: app.start
+
 test.watch:
 	yarn jest --watch
 
