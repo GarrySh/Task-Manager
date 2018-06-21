@@ -11,7 +11,6 @@ let user;
 beforeEach(async () => {
   server = app().listen();
   await initDb();
-
   user = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
