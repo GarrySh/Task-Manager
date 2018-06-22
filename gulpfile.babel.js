@@ -41,7 +41,7 @@ gulp.task('initDb', async () => {
     await initDb();
     console.log('fine');
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
   console.log('done');
 });
