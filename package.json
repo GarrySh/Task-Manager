@@ -16,6 +16,7 @@
     "babel-node": "babel-node",
     "prepublishOnly": "npm run build",
     "install": "webpack --mode production",
+    "postinstall": "gulp initDb",
     "console": "gulp console",
     "start": "gulp server",
     "initDb": "gulp initDb",
