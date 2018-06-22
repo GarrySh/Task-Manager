@@ -14,7 +14,8 @@ module.exports = {
     dialect: 'postgres',
     use_env_variable: 'DATABASE_URL',
     operatorsAliases: false,
-    synchronize: true,
+    // synchronize: true,
+    ssl: true,
     extra: {
       ssl: true,
     },
