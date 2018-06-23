@@ -260,68 +260,11 @@ describe('task CRUD', () => {
       .expect(302);
   });
 
-  test('test1', async () => {
+  test('add task', async () => {
     const tasksPage = await session
       .get('/tasks')
       .expect(200);
 
     expect(tasksPage.text).toMatch(task.name);
   });
-
-  // test('test2', async () => {
-  //   const tasksPage = await session
-  //     .get('/tasks')
-  //     .expect(200);
-
-  //   expect(tasksPage.text).toMatch(task.name);
-  // });
-
-  // test('test3', async () => {
-  //   const tasksPage = await session
-  //     .get('/tasks')
-  //     .expect(200);
-
-  //   expect(tasksPage.text).toMatch(task.name);
-  // });
-  // test('add task', async () => {
-  //   const tasksPage = await session
-  //     .get('/tasks')
-  //     .expect(200);
-  //   expect(tasksPage.text).toMatch(task.name);
-  //   expect(tasksPage.text).toMatch(task.description);
-  // });
-
-  // test('delete task', async () => {
-  //   console.log('name', task.name);
-  //   await session
-  //     .del('/tasks/1')
-  //     .expect(302);
-
-  // const tasksPage = await session
-  //   .get('/tasks')
-  //   .expect(200);
-
-  // expect(tasksPage.text).not.toMatch(task.name);
-  // });
-
-  // test('update task', async () => {
-  //   const taskToUpdate = {
-  //     name: faker.random.word(),
-  //     description: faker.random.words(),
-  //     statusId: 1,
-  //     assignedToId: 1,
-  //     tagsStr: faker.random.word(),
-  //   };
-
-  //   await session
-  //     .patch('/tasks/1')
-  //     .send({ form: taskToUpdate })
-  //     .expect(302);
-
-  //   const tasksPage = await session
-  //     .get('/tasks')
-  //     .expect(200);
-
-  //   expect(tasksPage.text).toMatch(taskToUpdate.name);
-  // });
 });
