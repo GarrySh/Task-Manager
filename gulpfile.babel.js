@@ -36,14 +36,11 @@ gulp.task('browser-sync', ['server'], () => {
   });
 });
 
-gulp.task('initDb', async () => {
-  try {
-    await initDb();
+gulp.task('initDb', (done) => {
+  initDb().then(() => {
     console.log('fine');
-  } catch (err) {
-    console.error(err);
-  }
-  console.log('done');
+    done();
+  });
 });
 
 gulp.task('default', ['server']);
