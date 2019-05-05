@@ -32,10 +32,10 @@
     "jest": "^23.1.0",
     "jest-cli": "^23.1.0",
     "jest-supertest-cookie-fix": "^1.0.0",
+    "node-pre-gyp": "^0.10.0",
     "nodemon": "^1.17.5",
-    "supertest": "^3.1.0",
     "sqlite3": "^4.0.0",
-    "node-pre-gyp": "^0.10.0"
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "autoprefixer": "^8.6.2",

@@ -6,21 +6,31 @@
 
 Online demo version: https://task-manager-garrysh.herokuapp.com/
 
-## Description
+## Описание
 
-Simple task manager - fourth backend project on hexlet.io
+Task manager - четверый учебный проект профессии backend javascript разработчик на hexlet.io
 
-All visitors can view the list of tasks and users. Authenticated users can create and edit tasks. Users deleting is available only for themselves.
+Доступна функциональность:
 
-* Backend: Node.JS with koaJs web framework, pug, rollbar, sequelise ORM, postgerSQL in prod and sqlite in dev
-* Frontend: bootstrap, webpack
-* Tests: jest, supertest, faker
-* Deploy: heroku
+- чтение, создание, редактирование, удаление пользователей (users CRUD)
+- чтение, создание, редактирование, удаление задач (tesks CRUD)
+- авторизация
+- фильтрация задач
+
+Все действия выполняются на стороне сервера.
+
+## Стек
+
+- Backend: Node.JS with KoaJS web framework, pug, rollbar, postgerSQL in prod and sqlite in dev via sequelise ORM
+- Frontend: bootstrap
+- Tests: jest, supertest, faker
+- Bundler: webpack
+- Deploy: heroku
 
 ## Requirements
 
-* Node.JS
-* Yarn
+- Node.JS
+- Yarn
 
 ## Setup
 
@@ -33,6 +43,7 @@ make install
 ## Run
 
 ```console
+make db.init
 make start
 ```
 
